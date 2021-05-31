@@ -1,4 +1,6 @@
 # Codeforces-Solutions
+بسم الله الرحمن الرحيم
+<br />
 My solutions for [Codeforces](https://www.codeforces.com) problems.
 
 I do this as a preparation for my coding test (in the future). <br />
