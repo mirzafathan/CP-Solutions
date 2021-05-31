@@ -47,4 +47,5 @@ void solve() {
     return;
   }
   cout << 2 << endl;
+  
 }
