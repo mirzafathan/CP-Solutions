@@ -14,10 +14,13 @@ int main() {
     for(int i=0; i<t; i++) {
       long long n; cin >> n;
       string s; cin >> s;
-      if(n%2==1) {
-        if(s[floor(n/2)]!='1' && n>1) { cout << "ALICE" << endl; }
-        else { cout << "BOB" << endl; }
-      } else cout << "BOB" << endl;
+      long long len = s.length();
+      bool zero_more_than_one = 0;
+      for(int j=0; j<(len-1)/2; j++) {
+        if(s[j]=='0') {zero_more_than_one = 1; break;}
+      }
+      if(len%2==1 && s[(len-1)/2]!='1' && len>1 && zero_more_than_one) cout << "ALICE" << endl;
+      else cout << "BOB" << endl;
     }
     return 0;
 }
