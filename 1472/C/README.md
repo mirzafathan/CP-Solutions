@@ -1,4 +1,4 @@
 بسم الله الرحمن الرحيم
 <br />
-Problem: <paste link here>
+Problem: https://codeforces.com/problemset/problem/1472/C
 ![GitHub Logo](proof.png)
