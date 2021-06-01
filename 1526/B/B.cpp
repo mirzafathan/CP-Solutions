@@ -17,10 +17,11 @@ void solve() {
     rem = x - i*111;
 
     if(rem%11==0) {
-      for(long long j=0; j<=rem/11; j++) {
+      long long per_eleven = rem/11;
+      for(long long j=0; j<=floor(per_eleven/111); j++) {
         long long k = 0;
-        while((j*111+k)<=rem/11) {
-          if((j*111)+k==rem/11) {
+        while((j*111+k)<=per_eleven) {
+          if((j*111)+k==per_eleven) {
             cout << "YES" << endl;
             return;
           } k++;
