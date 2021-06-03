@@ -8,7 +8,8 @@ int main() {
   cout.tie(0);
 
   long long n, m; cin >> n >> m;
-  long long a[2][m], seg_count[n], tail_length[n];
+  long long seg_count[n], tail_length[n];
+  long long a[m][m];
   for(long long i=0; i<n; i++) seg_count[i] = 0;
   for(long long i=0; i<m; i++) {
     cin >> a[0][i] >> a[1][i];
