@@ -21,21 +21,22 @@ int main() {
   }
 
   for(ll i=1; i<len; i++) {
-    ll ai = s[i];
-    if(abs(s[i]-s[i-1])>1) dif_one = 1;
+    ll ai = s[i]-'0';
+    if(abs((s[i]-'0')-(s[i-1]-'0'))>1) dif_one = 0;
     for(ll j=0; j<10; j++) {
       dp[(ai+j)/2][i] += dp[j][i-1];
       if((ai+j)%2) dp[(ai+j+1)/2][i] += dp[j][i-1];
     }
   }
 
-  for(ll i=0; i<len-1; i++) {
-    dp[9][len] += dp[i][len];
+
+  for(ll i=0; i<9; i++) {
+    dp[9][len-1] += dp[i][len-1];
   }
 
-  if(dif_one) dp[9][len]--;
+  if(dif_one) dp[9][len-1]--;
 
-  cout << dp[9][len] << endl;
-  
+  cout << dp[9][len-1] << endl;
+
   return 0;
 }
