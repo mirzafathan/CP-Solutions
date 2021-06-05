@@ -28,7 +28,7 @@ int main() {
     if(i<9) dp[i] = 2;
     else if(i==9) dp[i] = 3;
     else {
-      dp[i] = dp[i-9] + dp[i-10];
+      dp[i] = (dp[i-9] + dp[i-10])%mod;
     }
   }
 
