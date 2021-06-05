@@ -2,6 +2,7 @@
 using namespace std;
 
 const long long mod = 1000000007;
+long long dp[200000];
 
 void solve() {
   long long n, m;
@@ -22,8 +23,6 @@ int main() {
   cin.tie(0);
   cout.tie(0);
   long long t; cin >> t;
-
-  long long dp[200000];
 
   for(int i=0; i<200000; i++) {
     if(i<9) dp[i] = 2;
