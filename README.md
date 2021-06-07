@@ -1,4 +1,4 @@
-# Codeforces-Solutions
+# CP-Solutions
 بسم الله الرحمن الرحيم
 <br />
 This repository stores my solutions for CP problems especially those in [Codeforces](https://www.codeforces.com).
