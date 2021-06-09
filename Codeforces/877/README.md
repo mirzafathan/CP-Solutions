@@ -1,5 +1,5 @@
 بسم الله الرحمن الرحيم
 <br />
-# Codeforces Round (Div. 1)
-### [xyza] (link)
-![GitHub Logo](proof.png)
+# Codeforces Round #442 (Div. 2)
+### [877B - Nikita and string
+](https://codeforces.com/problemset/problem/877/B)
