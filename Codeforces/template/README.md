@@ -1,6 +1,5 @@
 بسم الله الرحمن الرحيم
 <br />
-#<problem_no>
-###contest
-Problem: <paste link here> <br/>
+# Codeforces Round (Div. 1)
+### [xyza] (link)
 ![GitHub Logo](proof.png)
