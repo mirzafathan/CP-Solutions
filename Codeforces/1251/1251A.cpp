@@ -13,21 +13,25 @@ int main() {
     cin >> s;
     ll len = s.length();
     vector<char> res;
-    for(ll i=0; i<len-1; i++) {
-      if(s[i]==s[i+1]) i++;
+    if(len==1) {
+      cout << s[0] << endl;
+      continue;
+    }
+    for(ll i=0; i<len; i++) {
+      if(i<len-1 && s[i]==s[i+1]) i++;
       else{
         res.push_back(s[i]);
         if(i==len-2) {
-          res.push_back(s[len-1]);
+          res.push_back(s[i+1]);
         }
         sort(res.begin(), res.end());
       }
     }
+    //cout << res.size();
     for(ll i=0; i<res.size(); i++) {
-      cout << res[i];
-      if(i<res.size()-1) {
-        if(res[i]==res[i+1]) i++;
-      }
+      if(i>0) {
+        if(res[i-1]!=res[i]) cout << res[i];
+      } else cout << res[i];
     }
     cout << endl;
   }
