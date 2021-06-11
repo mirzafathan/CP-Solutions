@@ -1,21 +1,22 @@
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
+vector<ll> a;
 
-ll fact(ll n);
-
-ll nCr(ll n, ll r)
+ll binser(ll x, ll l, ll r)
 {
-    return fact(n) / (fact(r) * fact(n - r));
-}
-
-// Returns factorial of n
-ll fact(ll n)
-{
-    ll res = 1;
-    for (ll i = 2; i <= n; i++)
-        res = res * i;
-    return res;
+    if (r >= l) {
+        ll mid = l + (r - l) / 2;
+        if(r==a.size()-1) {
+          if(a[r]<=x) return r+1;
+        }
+        if (a[mid] <= x && a[mid+1] > x)
+            return mid+1;
+        if (a[mid] > x)
+            return binser(x, l, mid-1);
+        return binser(x, mid+1, r);
+    }
+    return 0;
 }
 
 int main() {
@@ -27,7 +28,6 @@ int main() {
 
   while(t--) {
 
-    vector<ll> a;
     ll n, l, r;
     cin >> n >> l >> r;
 
@@ -38,48 +38,19 @@ int main() {
 
     sort(a.begin(), a.end());
 
-    if(a[n-2]+a[n-1]<l) cout << 0 << endl;
-    else if(a[0]+a[1]>r) cout << 0 << endl;
-    else {
-      ll ans = 0;
-      ll start=1000000, end=0;
-      for(ll i=0; i<n-1; i++) {
-        if(a[i]+a[i+1]>=l && a[i]+a[i+1]<=r && i<start) {
-          start = i;
-          end = i+1;
-        }
-        if(i+2<=n-1) {
-          if(a[i]+a[i+1]>=l && a[i]+a[i+1]<=r && a[i+1]+a[i+2]>r)
-            end = i+1;
-        }
-      }
+    ll ans = 0;
+    for(ll i=0; i<a.size()-1; i++){
+      //cout << "l-1 " << l-1-a[i]<< endl;
+    //  cout << "r " << binser(r-a[i], i+1, a.size()-1) << endl;
+  //    cout << "l " << binser(l-1-a[i], i+1, a.size()-1) << endl;
 
-      for(ll i=0; i<start; i++) {
-        ll endpoint = n;
-        for(ll j=start; j<endpoint; j++) {
-          if(a[i]+a[j]>=l && a[i]+a[j]<=r) {
-            ans++;
-          }
-          if(a[i]+a[j]>r) {
-            endpoint = j;
-            break;
-          }
-        }
-      }
+      ans += max(binser(r-a[i], i+1, a.size()-1) - i-1, (ll) 0) -
+      max(binser(l-1-a[i], i+1, a.size()-1) - i-1, (ll) 0);
 
-      for(ll i=end+1; i<n; i++) {
-        ll endpoint = end;
-        for(ll j=start; j<=endpoint; j++) {
-          if(a[i]+a[j]>r) {
-            endpoint = j;
-            break;
-          }
-          if(a[i]+a[j]>=l && a[i]+a[j]<=r) ans++;
-        }
-      }
-
-      cout << ans + nCr(end-start+1,2) << endl;
     }
+  a.clear();
+  cout << ans<< endl;
+
   }
 
   return 0;
