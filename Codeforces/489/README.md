@@ -1,5 +1,4 @@
 بسم الله الرحمن الرحيم
 <br />
-# Codeforces Round (Div. 1)
-### [xyza] (link)
-![GitHub Logo](proof.png)
+# Codeforces Round #277.5 (Div. 2)
+### [xyza](https://codeforces.com/problemset/problem/489/C)
