@@ -2,4 +2,4 @@
 <br />
 # Codeforces Round (Div. 1)
 ### [xyza] (link)
-![GitHub Logo](proof.png)
+Muhammad Mirza Fathan | 2021
