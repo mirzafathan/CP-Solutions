@@ -6,12 +6,6 @@ ll n, m;
 vector< vector< pair<ll,ll> > > graph;
 vector<bool> vis;
 
-void clear(vector<bool> a) {
-  for(ll i=0; i<a.size(); i++) {
-    a[i]=false;
-  }
-}
-
 bool dfs(ll u, ll v, ll c) {
   ll vertices = graph[u].size();
   vis[u] = true;
@@ -20,7 +14,7 @@ bool dfs(ll u, ll v, ll c) {
     ll fr = graph[u][i].first;
     ll sc = graph[u][i].second;
     if(sc==c && vis[fr]==false) {
-      return dfs(fr, v, c);
+      if(dfs(fr, v, c)) return true;
     }
   }
   return false;
@@ -36,13 +30,14 @@ int main() {
 
   graph.resize(n+1);
   vis.resize(n+1);
-  clear(vis);
+
 
   for(ll i=1; i<=m; i++) {
     cin >> a >> b >> c;
     graph[a].push_back(make_pair(b, c));
     graph[b].push_back(make_pair(a, c));
   }
+
 
   cin >> q;
   ll u, v;
@@ -52,7 +47,10 @@ int main() {
     ll num =0;
     for(ll j=1; j<=m; j++) {
 //      cout << j << endl;
-      clear(vis);
+
+      for(ll k=0; k<vis.size(); k++)
+        vis[k]=false;
+
       if(dfs(u, v, j)) {
 //        cout << "j" << j << " " << dfs(u,v,j) << endl;
         num++;
