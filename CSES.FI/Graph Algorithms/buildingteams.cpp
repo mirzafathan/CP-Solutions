@@ -9,15 +9,16 @@ vector <vector<int> > friendlist;
 vector<bool> visited;
 vector<int> colour;
 
-bool dfs(int a, int c) {
+bool dfs(int a, int c, int par) {
   visited[a] = true;
   colour[a] = c;
   for(int i=0; i<friendlist[a].size(); i++) {
     int cur = friendlist[a][i];
-    if(!visited[cur] && colour[cur]==0 && c==1)
-      return dfs(cur, 2);
-    if(!visited[cur] && colour[cur]==0 && c==2)
-      return dfs(cur, 1);
+    if(cur == par) continue;
+    if(colour[cur]==0 && c==1)
+      if(!dfs(cur, 2, a)) return false;
+    if(colour[cur]==0 && c==2)
+      if(!dfs(cur, 1, a)) return false;
     if(colour[cur] == colour[a])
       return false;
   }
@@ -71,35 +72,16 @@ int main() {
 
   for(int i=1; i<=n; i++) {
     if(visited[i]==false) {
-      int neighbor = checkNeighbor(i);
-      if(neighbor==0) {
-        //cout << 0;
+      if(!dfs(i, 1 , -1)) {
         cout << "IMPOSSIBLE" << endl;
         return 0;
-      } else if (neighbor==1) {
-        if(!dfs(i, 2)) {
-          //cout << 1;
-          cout << "IMPOSSIBLE" << endl;
-          return 0;
-        }
-      } else {
-        if(!dfs(i, 1)) {
-          //cout << 2;
-          cout << "IMPOSSIBLE" << endl;
-          return 0;
-        }
       }
-
     }
   }
-
 
   for(int i=1; i<=n; i++) {
     cout << colour[i] << " ";
   } cout << endl;
-
-
-
 
   return 0;
 }
