@@ -9,5 +9,7 @@ BFS. Basically a very simple implementation of BFS, everything is pretty straigh
 DFS/DSU.
 ### [Message Route](https://cses.fi/problemset/task/1667)
 BFS.
+### [Building Teams](https://cses.fi/problemset/task/1668)
+Graph coloring with DFS.
 <br/> <br/>
 **Muhammad Mirza Fathan | 2021**
