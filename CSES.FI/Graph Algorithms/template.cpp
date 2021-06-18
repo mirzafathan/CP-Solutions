@@ -1,5 +1,7 @@
 // Muhammad Mirza Fathan
 #include <bits/stdc++.h>
+#define front fr
+#define push_back pb
 using namespace std;
 typedef long long ll;
 
