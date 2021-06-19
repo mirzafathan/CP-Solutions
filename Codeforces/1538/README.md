@@ -7,5 +7,6 @@ Here is a list of problems which I've solved. A and B were AC during the contest
 ### [1538B](https://codeforces.com/contest/1538/problem/B)
 ### [1538C](https://codeforces.com/contest/1538/problem/C)
 ### [1538D](https://codeforces.com/contest/1538/problem/D)
+### [1538F](https://codeforces.com/contest/1538/problem/F)
 <br /> <br />
 **Muhammad Mirza Fathan | 2021**
