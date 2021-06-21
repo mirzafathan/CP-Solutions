@@ -23,7 +23,10 @@ int main() {
   for(ll i=1; i<n; i++) {
     ll dif = a[i] - a[i-1];
     if(dif>x) {
-      difarr.push_back((ll) ceil((double)dif/(double)x)-1);
+      if(dif%x)
+        difarr.push_back(dif/x);
+      else
+        difarr.push_back(dif/x-1);
       ans++;
     }
   }
