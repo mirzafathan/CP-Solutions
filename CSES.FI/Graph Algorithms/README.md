@@ -13,5 +13,7 @@ BFS.
 Graph coloring with DFS.
 ### [Round Trip](https://cses.fi/problemset/submit/1669/)
 DFS find cycle.
+### [Monsters](https://cses.fi/problemset/task/1194)
+Multi-source BFS.
 <br/> <br/>
 **Muhammad Mirza Fathan | 2021**
