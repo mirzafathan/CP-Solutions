@@ -1,6 +1,12 @@
 // Muhammad Mirza Fathan 2021
 #include <bits/stdc++.h>
 using namespace std;
+#define fr front
+#define bk back
+#define pb push_back
+#define mp make_pair
+#define fi first
+#define sc second
 typedef long long ll;
 
 int main() {
@@ -8,40 +14,35 @@ int main() {
   cin.tie(0);
   cout.tie(0);
 
-  ll n, k, x;
-  cin >> n >> k >> x;
-  vector<ll> a(n);
-  vector<ll> difarr;
+  ll n; cin >> n;
+  vector< pair<ll,ll> > v;
+
   for(ll i=0; i<n; i++) {
-    cin >> a[i];
+    ll a, b; cin >> a >> b;
+    v.pb(mp(b,a));
   }
+  sort(v.begin(), v.end());
 
-  sort(a.begin(), a.end());
-
+  ll bought = 0;
   ll ans = 0;
 
-  for(ll i=1; i<n; i++) {
-    ll dif = a[i] - a[i-1];
-    if(dif>x) {
-      if(dif%x)
-        difarr.push_back(dif/x);
-      else
-        difarr.push_back(dif/x-1);
-      ans++;
+  while(!v.empty()) {
+    if(v.bk().sc==0) {
+      v.pop_back();
+      continue;
     }
+    vector< pair<ll,ll> >::it = lower_bound(v.begin(), v.end(), bought)
+    if(it!=v.end()) {
+      ans++;
+      bought++;
+      it.sc--;
+      continue;
+    }
+    v.bk().sc--;
+    bought++;
   }
 
-  sort(difarr.begin(), difarr.end());
 
-  ll newstud = 0;
-  ll i=0;
-  while(k>0 && i<difarr.size()) {
-    k-=difarr[i];
-    i++;
-    if(k>=0) newstud++;
-  }
-
-  cout << ans - newstud + 1<< endl;
 
   return 0;
 }

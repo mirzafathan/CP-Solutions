@@ -1,6 +1,9 @@
 // Muhammad Mirza Fathan 2021
 #include <bits/stdc++.h>
 using namespace std;
+#define fr front
+#define pb push_back
+#define mp make_pair
 typedef long long ll;
 
 int main() {
