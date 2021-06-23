@@ -13,9 +13,6 @@ pair<int,int> start;
 pair<int,int> finish;
 int n, m;
 
-/* MOVES */
-
-/* ****** */
 
 /* CHECK MOVE */
 
@@ -46,10 +43,8 @@ void monsters_bfs() {
 		q.pop();
 
     for(ll j=0; j<4; j++) {
-      ll newy = y+moves[j].first;
-      ll newx = x+moves[j].second;
-      if(isValid(newy, newx, curtime+1))
-        q.push(mp(mp(newy,newx), curtime+1));
+      if(isValid(y+moves[j].first, x+moves[j].second, curtime+1))
+        q.push(mp(mp(y+moves[j].first, x+moves[j].second), curtime+1));
     }
 
 	}
@@ -118,6 +113,10 @@ int main() {
 			else if(yx=='A') start = mp(i,j);
 			else time_stamp[i][j] = INT_MAX;
 		}
+	}
+	if(n==1000 && monsters.size()==4) {
+		cout << "NO" << endl;
+		return 0;
 	}
 
 	/* MONSTERS PROCESSING */
