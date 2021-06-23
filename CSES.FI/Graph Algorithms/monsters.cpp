@@ -5,41 +5,22 @@
 #define mp make_pair
 using namespace std;
 typedef long long ll;
-vector< vector<ll> > time_stamp;
-vector< vector< pair<ll,ll> > > parents;
-vector< pair<ll,ll> > monsters;
-ll n, m;
+vector< vector<int> > time_stamp;
+map< pair<int,int>, pair<int,int> > parents;
+vector< pair<int,int> > monsters;
+vector< pair<int,int> > moves;
+pair<int,int> start;
+pair<int,int> finish;
+int n, m;
 
 /* MOVES */
-
-pair<ll,ll> left(pair<ll,ll> point) {
-	point.second--;
-	return point;
-}
-
-pair<ll,ll> right(pair<ll,ll> point) {
-	point.second++;
-	return point;
-}
-
-pair<ll,ll> up(pair<ll,ll> point) {
-	point.first--;
-	return point;
-}
-
-pair<ll,ll> down(pair<ll,ll> point) {
-	point.first++;
-	return point;
-}
 
 /* ****** */
 
 /* CHECK MOVE */
 
-bool isValid(pair<ll,ll> point, ll stopwatch) {
-	ll y = point.first;
-	ll x = point.second;
-	if(y<0 || y>=n || x<=0 || x>=m)
+bool isValid(int y, int x, int stopwatch) {
+	if(y<0 || y>=n || x<0 || x>=m)
 		return false;
 	if(time_stamp[y][x]<= stopwatch)
 		return false;
@@ -50,23 +31,27 @@ bool isValid(pair<ll,ll> point, ll stopwatch) {
 
 /* MONSTERS BFS */
 
-void monsters_bfs(pair<ll,ll> monster) {
+void monsters_bfs() {
 
-	queue< pair< pair<ll,ll>, ll> > q;
-	q.push(mp(monster, 0));
+	queue< pair< pair<int,int>, int> > q;
+	for(int i=0; i<monsters.size(); i++) {
+		q.push(mp(monsters[i], 0));
+	}
 	while(!q.empty()) {
-		pair<ll,ll> cur = q.fr().first;
-		ll curtime = q.fr().second;
-		time_stamp[cur.first][cur.second] = curtime;
+    int y = q.fr().first.first;
+    int x = q.fr().first.second;
+		int curtime = q.fr().second;
+		time_stamp[y][x] = curtime;
+
 		q.pop();
-		if(isValid(left(cur), curtime+1))
-			q.push(mp(left(cur), curtime+1));
-		if(isValid(right(cur), curtime+1))
-			q.push(mp(right(cur), curtime+1));
-		if(isValid(up(cur), curtime+1))
-			q.push(mp(up(cur), curtime+1));
-		if(isValid(down(cur), curtime+1))
-			q.push(mp(down(cur), curtime+1));
+
+    for(ll j=0; j<4; j++) {
+      ll newy = y+moves[j].first;
+      ll newx = x+moves[j].second;
+      if(isValid(newy, newx, curtime+1))
+        q.push(mp(mp(newy,newx), curtime+1));
+    }
+
 	}
 
 }
@@ -75,7 +60,31 @@ void monsters_bfs(pair<ll,ll> monster) {
 
 /* ESCAPE ALGORITHM */
 
-bool escape(pair<ll,ll> start) {
+bool escape(pair<int,int> start) {
+	queue< pair< pair<int,int>,int > > q;
+	q.push(mp(start, 0));
+	while(!q.empty()) {
+    int y = q.fr().first.first;
+    int x = q.fr().first.second;
+		int curtime = q.fr().second;
+		time_stamp[y][x] = curtime;
+
+		q.pop();
+
+    if(y==0 || y==n-1 || x==0 || x==m-1) {
+			finish = mp(y,x);
+			return true;
+		}
+
+    for(ll j=0; j<4; j++) {
+      ll newy = y+moves[j].first;
+      ll newx = x+moves[j].second;
+      if(isValid(newy, newx, curtime+1)) {
+        parents[mp(newy,newx)] = mp(y,x);
+        q.push(mp(mp(newy,newx), curtime+1));
+      }
+    }
+	}
 	return false;
 }
 
@@ -86,56 +95,67 @@ int main() {
   cin.tie(0);
   cout.tie(0);
 
+  moves.pb(mp(1,0));
+  moves.pb(mp(-1,0));
+  moves.pb(mp(0,1));
+  moves.pb(mp(0,-1));
 
 	cin >> n >> m;
 
 
-	pair<ll,ll> start;
+	vector< pair<int,int> > path;
 
 
-	parents.resize(n);
 	time_stamp.resize(n);
 
+	for(int i=0; i<n; i++) time_stamp[i].resize(m);
 
-	for(ll i=0; i<n; i++) {
-		parents[i].resize(m);
-		time_stamp[i].resize(m);
-	}
-
-
-	for(ll i=0; i<n; i++) {
-		for(ll j=0; j<m; j++) {
-			time_stamp[i][j] = LLONG_MAX;
-		}
-	}
-
-
-	for(ll i=0; i<n; i++) {
-		for(ll j=0; j<m; j++) {
+	for(int i=0; i<n; i++) {
+		for(int j=0; j<m; j++) {
 			char yx; cin >> yx;
 			if(yx=='#') time_stamp[i][j] = -1;
-			if(yx=='M') monsters.pb(mp(i,j));
-			if(yx=='A') start = mp(i,j);
+			else if(yx=='M') monsters.pb(mp(i,j));
+			else if(yx=='A') start = mp(i,j);
+			else time_stamp[i][j] = INT_MAX;
 		}
 	}
 
 	/* MONSTERS PROCESSING */
-
-	for(ll i=0; i<monsters.size(); i++)
-		monsters_bfs(monsters[i]);
+	monsters_bfs();
 
 	/* ****** */
 
-	for(ll i=0; i<n; i++) {
-		for(ll j=0; j<m; j++) {
-			cout << time_stamp[i][j] << " ";
+	/* ESCAPE!! */
+	if(escape(start)) {
+		time_stamp.clear();
+		monsters.clear();
+		cout << "YES" << endl;
+
+		while(finish!=start) {
+			path.pb(finish);
+			finish = parents[finish];
+		}
+		path.pb(start);
+		int len = path.size();
+		cout << len-1 << endl;
+		for(int i=len-2; i>=0; i--) {
+			int ychange = path[i].first - path[i+1].first;
+			int xchange = path[i].second - path[i+1].second;
+			if(ychange==1) {
+				cout << 'D';
+			} else if(ychange==-1) {
+				cout << 'U';
+			} else if(xchange==1) {
+				cout << 'R';
+			} else if(xchange==-1) {
+				cout << 'L';
+			}
 		} cout << endl;
+		return 0;
+
 	}
 
-
-
-
-
+	cout << "NO" << endl;
 
   return 0;
 }
