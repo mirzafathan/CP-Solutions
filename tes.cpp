@@ -9,7 +9,7 @@ int main () {
   std::sort (v.begin(), v.end());                // 10 10 10 20 20 20 30 30
 
   std::vector<int>::iterator low,up;
-  low=std::lower_bound (v.begin(), v.end(), 20, operator >); //          ^
+  low=std::lower_bound (v.begin(), v.end(), 20, operator>); //          ^
   up= std::upper_bound (v.begin(), v.end(), 20); //                   ^
 
   std::cout << "lower_bound at position " << (low- v.begin()) << '\n';

@@ -27,8 +27,6 @@ int main() {
   ll ans = 0;
 
   while(!v.empty()) {
-
-  //  cout << v[0].fi << " " << v[0].sc << endl;
     ll lowest = v.fr().fi;
 
     if(lowest<=bought) {
@@ -53,8 +51,6 @@ int main() {
   }
 
   cout << ans << endl;
-
-
 
   return 0;
 }
