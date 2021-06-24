@@ -15,7 +15,7 @@ int main() {
   cout.tie(0);
 
   ll n; cin >> n;
-  vector< pair<ll,ll> > v;
+  deque< pair<ll,ll> > v;
 
   for(ll i=0; i<n; i++) {
     ll a, b; cin >> a >> b;
@@ -27,20 +27,32 @@ int main() {
   ll ans = 0;
 
   while(!v.empty()) {
-    if(v.bk().sc==0) {
+
+  //  cout << v[0].fi << " " << v[0].sc << endl;
+    ll lowest = v.fr().fi;
+
+    if(lowest<=bought) {
+      bought+=v.fr().sc;
+      ans+=v.fr().sc;
+      v.pop_front();
+      continue;
+    }
+
+    if(lowest-bought<=v.bk().sc) {
+      v.bk().sc-=(lowest-bought);
+      ans += 2*(lowest-bought);
+      bought = lowest;
+      if(v.bk().sc==0)
+        v.pop_back();
+    } else {
+      bought+= v.bk().sc;
+      ans+= 2*v.bk().sc;
       v.pop_back();
-      continue;
     }
-    vector< pair<ll,ll> >::it = lower_bound(v.begin(), v.end(), bought)
-    if(it!=v.end()) {
-      ans++;
-      bought++;
-      it.sc--;
-      continue;
-    }
-    v.bk().sc--;
-    bought++;
+
   }
+
+  cout << ans << endl;
 
 
 
