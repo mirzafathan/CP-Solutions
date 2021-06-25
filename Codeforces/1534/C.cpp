@@ -14,8 +14,8 @@ using namespace std;
 typedef long long ll;
 # define ll long long
 # define ld long double
-# define FOR(i,x,y) for(LL i=x;i<y;i++)
-# define RFOR(i,x,y) for(LL i=x;i>=y;i--)
+# define rep(i,x,y) for(ll i=x;i<y;i++)
+# define rrep(i,x,y) for(ll i=x;i>=y;i--)
 # define DEBUG_STL(x) for(auto i:x){cout<<i<<" ";}cout<<endl;
 # define DEBUG_1D(x,a,b) FOR(i,a,b){cout<<x[i]<<" ";}cout<<endl;
 # define DEBUG_2D(x,a1,b1,a2,b2) FOR(i,a1,b1){FOR(j,a2,b2){cout<<x[i][j]<<" ";}cout<<endl;}
@@ -142,7 +142,49 @@ bool isPrime(ll n)
 
 /************************/
 
+VVI graf;
+VB visited;
+
+ll dfs(ll n, ll par) {
+  visited[n] = true;
+  rep(i,0,graf[n].size()) {
+    ll cur = graf[n][i];
+    if(!visited[cur])
+      return 1 + dfs(cur,n);
+    else if(cur!=par)
+      return 0;
+  }
+  return 0; // case 2
+}
+
 void solve() {
+
+  ll n; cin >> n; ll a[n+1][2];
+
+  graf.resize(n+1);
+  visited.resize(n+1);
+
+  rep(i,0,n+1) visited[i]=false;
+  for(ll i=1; i<=n; i++) {
+    cin >> a[i][0];
+  }
+  for(ll i=1; i<=n; i++) {
+    cin >> a[i][1];
+  }
+
+  for(ll i=1; i<=n; i++) {
+    graf[a[i][0]].pb(a[i][1]);
+    graf[a[i][1]].pb(a[i][0]);
+  }
+
+  ll ans = 0;
+  for(ll i=1; i<=n; i++) {
+    if(!visited[i]) {
+      ans+=dfs(i,-1)-1;
+    }
+  }
+
+  cout << power(2,ans) << endl;
 
 }
 
@@ -151,17 +193,15 @@ int main() {
   cin.tie(0);
   cout.tie(0);
 
-  /*
+
   // for multiple testcase problems
 
   ll t; cin >> t;
   while(t--) {
     solve();
+    visited.clear();
+    graf.clear();
   }
-
-  */
-
-  solve();
 
   return 0;
 }
