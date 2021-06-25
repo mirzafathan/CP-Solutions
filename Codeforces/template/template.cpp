@@ -101,11 +101,11 @@ ll gcd(ll a, ll b)
            -edge case for empty list/data structure/N=1
      */
 
+/************************/
+
 void solve() {
 
 }
-
-/************************/
 
 int main() {
   ios_base::sync_with_stdio(0);
