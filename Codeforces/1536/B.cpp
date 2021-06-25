@@ -100,7 +100,6 @@ bool isPrime(ll n)
     return true;
 }
 
-
 /* From hu_tao:
 
         Random stuff to try when stuck:
