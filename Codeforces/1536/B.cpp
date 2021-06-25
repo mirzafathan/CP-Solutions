@@ -14,15 +14,14 @@ using namespace std;
 typedef long long ll;
 # define ll long long
 # define ld long double
-# define FOR(i,x,y) for(LL i=x;i<y;i++)
-# define RFOR(i,x,y) for(LL i=x;i>=y;i--)
-# define DEBUG_STL(x) for(auto i:x){cout<<i<<" ";}cout<<endl;
-# define DEBUG_1D(x,a,b) FOR(i,a,b){cout<<x[i]<<" ";}cout<<endl;
-# define DEBUG_2D(x,a1,b1,a2,b2) FOR(i,a1,b1){FOR(j,a2,b2){cout<<x[i][j]<<" ";}cout<<endl;}
-# define ALL(x) x.begin(), x.end()
+# define rep(i,x,y) for(ll i=x;i<y;i++)
+# define rrep(i,x,y) for(ll i=x;i>=y;i--)
+# define debug_stl(x) for(auto i:x){cout<<i<<" ";}cout<<endl;
+# define debug_1d(x,a,b) rep(i,a,b){cout<<x[i]<<" ";}cout<<endl;
+# define debug_2d(x,a1,b1,a2,b2) rep(i,a1,b1){FOR(j,a2,b2){cout<<x[i][j]<<" ";}cout<<endl;}
+# define all(x) x.begin(), x.end()
 # define MOD (ll)(1e9+7)
-# define INF8 (ll)(1e17+5)
-# define endl '\n'
+# define INFLL (ll)(1e17+5)
 
 typedef vector<ll> VI;
 typedef vector<bool> VB;
@@ -33,8 +32,8 @@ typedef pair<ll,PI > PPI;
 typedef vector<PI> VP;
 typedef vector<PPI> VPP;
 
-vector<ll> primeList;
-vector<bool> primes;
+VI primeList;
+VB primes;
 
 
 ll mod(ll x) {
@@ -141,7 +140,98 @@ bool isPrime(ll n)
 
 /************************/
 
+VS all;
+
+void pre_processing() {
+  string s = "a";
+  all.pb(s);
+  for(ll i=1; i<26; i++) {
+    s[0]++;
+    all.pb(s);
+  }
+
+  s = "aa";
+  ll i=1;
+  while(i>0) {
+    all.pb(s);
+    if(s[1]=='z') {
+      if(s[i-1]!='z') {
+        s[1]='a';
+        s[i-1]++;
+      } else {
+        s[1]='a';
+        i--;
+        s[i]='a';
+      }
+      continue;
+    }
+    s[1]++;
+  }
+
+  s = "aaa";
+  i=2;
+  while(s[0]!='z'||s[1]!='z'||s[2]!='z') {
+    all.pb(s);
+    if(s[2]=='z') {
+      if(s[1]!='z') {
+        s[2]='a';
+        s[1]++;
+      } else {
+        s[2]='a';
+        s[1]='a';
+        s[0]++;
+      }
+      continue;
+    }
+    s[2]++;
+  }
+
+  all.pb("zzz");
+}
+
 void solve() {
+  ll n; cin >> n;
+  string s; cin >> s;
+  string temp = "a";
+  VS permut;
+
+  for(ll i=0; i<s.length(); i++) {
+    temp[0] = s[i];
+    permut.pb(temp);
+  }
+
+  temp="aa";
+  if(s.length()>=2){
+  for(ll i=0; i<s.length()-1; i++) {
+    temp[0] = s[i];
+    temp[1] = s[i+1];
+    permut.pb(temp);
+  }}
+
+  temp="aaa";
+  if(s.length()>=3){
+  for(ll i=0; i<s.length()-2; i++) {
+    temp[0] = s[i];
+    temp[1] = s[i+1];
+    temp[2] = s[i+2];
+    permut.pb(temp);
+  }}
+
+  for(ll i=0; i<all.size(); i++) {
+    bool notfound = true;
+    for(ll j=0; j<permut.size(); j++) {
+      if(permut[j]==all[i]) {
+        notfound = false;
+        break;
+      }
+    }
+    if(notfound) {
+      cout << all[i] << endl;
+      permut.clear();
+      return;
+    }
+  }
+
 
 }
 
@@ -149,18 +239,14 @@ int main() {
   ios_base::sync_with_stdio(0);
   cin.tie(0);
   cout.tie(0);
+  pre_processing();
 
-  /*
-  // for multiple testcase problems
 
   ll t; cin >> t;
   while(t--) {
     solve();
   }
 
-  */
-
-  solve();
 
   return 0;
 }
