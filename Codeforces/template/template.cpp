@@ -33,6 +33,10 @@ typedef pair<ll,PI > PPI;
 typedef vector<PI> VP;
 typedef vector<PPI> VPP;
 
+vector<ll> primeList;
+vector<bool> primes;
+
+
 ll mod(ll x) {
   return (x%MOD + MOD)%MOD;
 }
@@ -60,6 +64,23 @@ ll gcd(ll a, ll b)
     if (a > b)
         return gcd(a%b, b);
     return gcd(a, b%a);
+}
+
+void sieve() {
+  primes[0] = false;
+  primes[1] = false;
+  for(ll i=2; i<primes.size(); i++) primes[i] = true;
+
+  for(ll i=2; i*i<primes.size(); i++) {
+    if(primes[i]) {
+      for(ll j=i*i; j<primes.size(); j+=i)
+        primes[j] = false;
+    }
+  }
+  for(ll i=2; i<primes.size(); i++) {
+    if(primes[i]) primeList.push_back(i);
+  }
+
 }
 
 /* From hu_tao:
