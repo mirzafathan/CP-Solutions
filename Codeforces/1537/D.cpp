@@ -124,8 +124,36 @@ void sieve() {
 
 /************************/
 
+ll is2n(ll n) {
+  ll res = 0;
+  while(n!=1) {
+    if(n%2==1) return -1;
+    n/=2;
+    res++;
+  }
+  return res;
+}
+
 void solve() {
   ll n; cin >> n;
+
+  ll log2 = is2n(n);
+
+  if(n==1) {
+    cout << "Bob" << endl;
+    return;
+  }
+
+  if(log2>=0) {
+    if(log2%2==0) cout << "Alice" << endl;
+    else cout << "Bob" << endl;
+    return;
+  }
+  if(n%2) {
+    cout << "Bob" << endl;
+    return;
+  }
+  cout << "Alice" << endl;
 }
 
 int main() {
