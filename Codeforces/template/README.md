@@ -1,5 +1,6 @@
 بسم الله الرحمن الرحيم
 <br />
-# Codeforces Round (Div. 1)
+# This is template file <contest_name>
+## Solved Problems
 ### [xyza](link) <br/><br/>
 **Muhammad Mirza Fathan | 2021**
