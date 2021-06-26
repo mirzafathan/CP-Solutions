@@ -143,6 +143,32 @@ bool isPrime(ll n)
 /************************/
 
 void solve() {
+  ll n; cin >> n;
+  if(n==1) {
+    cout << 1 << endl;
+    return;
+  } else if(n==2) {
+    cout << -1 << endl;
+    return;
+  }
+  VI odd;
+  VI even;
+  for(ll i=1; i<=n*n; i++) {
+    if(i%2) odd.pb(i);
+    else even.pb(i);
+  }
+  REP(i,0,n) {
+    REP(j,0,n) {
+      if(!even.empty()) {
+        cout << even.bk() << " ";
+        even.pop_back();
+        continue;
+      }
+      cout << odd.bk() << " ";
+      odd.pop_back();
+      continue;
+    } cout << endl;
+  }
 
 }
 
@@ -151,17 +177,12 @@ int main() {
   cin.tie(0);
   cout.tie(0);
 
-  /*
-  // for multiple testcase problems
 
   ll t; cin >> t;
   while(t--) {
     solve();
   }
 
-  */
-
-  solve();
 
   return 0;
 }

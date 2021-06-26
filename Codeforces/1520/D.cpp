@@ -144,30 +144,18 @@ bool isPrime(ll n)
 
 void solve() {
   ll n; cin >> n;
-  VVI ij(n);
+  VI a(n+1);
   ll ans = 0;
-  REP(i,0,n) {
-    ll in;
-    cin >> in;
-    ij[0].pb(in);
+  map<ll,ll> hash;
+  REP(i,1,n+1) {
+    cin >> a[i];
+    a[i]-=i;
+    hash[a[i]]++;
   }
 
-  REP(i,1,n) {
-    if(i==1) {
-      REP(j,1,n) {
-        ll dif = ij[i-1][j]-ij[i-1][j-1];
-        if(dif==1) ans++;
-        ij[i].pb(dif);
-      }
-      ij[0].clear();
-    } else {
-      REP(j,0,n-i) {
-        ll dif = ij[i-1][j] + ij[1][j+i-1];
-        if(dif==i) ans++;
-        ij[i].pb(dif);
-      }
-      if(i>3) ij[i-1].clear();
-    }
+  for(map<ll,ll>::iterator it=hash.begin(); it!=hash.end(); it++) {
+    ll val = it->second;
+    ans+= (val*(val-1))/2;
   }
 
   cout << ans << endl;
