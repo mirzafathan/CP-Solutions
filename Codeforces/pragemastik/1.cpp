@@ -143,7 +143,8 @@ bool isPrime(ll n)
 /************************/
 
 void solve() {
-
+  string s; cin >> s;
+  cout << "Hello world!" << endl;
 }
 
 int main() {
