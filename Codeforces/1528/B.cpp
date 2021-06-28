@@ -142,44 +142,33 @@ bool isPrime(ll n)
 
 /************************/
 
-ll countfactor(ll n) {
-  ll i=0;
-  map<ll,ll> hash;
-  ll temp = n;
-  while(n>1 && i<primeList.size()) {
-    ll div = primeList[i];
-    if(n%div!=0) {
-      i++;
-    } else {
-      n/=div;
-      hash[div]++;
+void solve() {
+ ll n; cin >> n;
+ VI dp;
+ dp.pb(0);
+ dp.pb(1);
+ ll countfactor[n+1];
+
+ for(ll i=0; i<=n; i++) {
+   countfactor[i]=0;
+ }
+
+ for(ll i=2; i<=n; i++) {
+   for (ll j=2; i*j<=n; j++) {
+      countfactor[i*j]++;
     }
   }
 
-  ll ans = 1;
-  for(map<ll,ll>::iterator it = hash.begin(); it!=hash.end(); it++) {
-    ans*=((it->second)+1);
-  }
 
-  return mod(ans);
-}
 
-void solve() {
-  primes.resize(1000);
-  sieve();
-  ll n; cin >> n;
-  VI dp;
-  dp.pb(0);
-  dp.pb(1);
+ ll sum = 1;
+ for(ll i=2; i<=n; i++) {
+   sum = mod(sum);
+   dp.pb(mod(sum+countfactor[i]+2));
+   sum+=dp[i];
+ }
 
-  ll sum = 1;
-  for(ll i=2; i<=n; i++) {
-    sum = mod(sum);
-    dp.pb(mod(sum+countfactor(i)));
-    sum+=dp[i];
-  }
-
-  cout << dp[n] << endl;
+ cout << dp[n] << endl;
 }
 
 int main() {
