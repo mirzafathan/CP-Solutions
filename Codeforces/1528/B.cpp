@@ -20,7 +20,7 @@ typedef long long ll;
 # define DEBUG_1D(x,a,b) FOR(i,a,b){cout<<x[i]<<" ";}cout<<endl;
 # define DEBUG_2D(x,a1,b1,a2,b2) FOR(i,a1,b1){FOR(j,a2,b2){cout<<x[i][j]<<" ";}cout<<endl;}
 # define ALL(x) x.begin(), x.end()
-# define MOD (ll)(1e9+7)
+# define MOD (ll)(998244353)
 # define INF8 (ll)(1e17+5)
 # define endl '\n'
 
@@ -142,8 +142,44 @@ bool isPrime(ll n)
 
 /************************/
 
-void solve() {
+ll countfactor(ll n) {
+  ll i=0;
+  map<ll,ll> hash;
+  ll temp = n;
+  while(n>1 && i<primeList.size()) {
+    ll div = primeList[i];
+    if(n%div!=0) {
+      i++;
+    } else {
+      n/=div;
+      hash[div]++;
+    }
+  }
 
+  ll ans = 1;
+  for(map<ll,ll>::iterator it = hash.begin(); it!=hash.end(); it++) {
+    ans*=((it->second)+1);
+  }
+
+  return mod(ans);
+}
+
+void solve() {
+  primes.resize(1000);
+  sieve();
+  ll n; cin >> n;
+  VI dp;
+  dp.pb(0);
+  dp.pb(1);
+
+  ll sum = 1;
+  for(ll i=2; i<=n; i++) {
+    sum = mod(sum);
+    dp.pb(mod(sum+countfactor(i)));
+    sum+=dp[i];
+  }
+
+  cout << dp[n] << endl;
 }
 
 int main() {
