@@ -142,7 +142,41 @@ bool isPrime(ll n)
 
 /************************/
 
+VVI adj;
+VI visited;
+VVI dp[100001][2];
+
+void dfs(ll n, ll par) {
+  visited[n] = true;
+
+
+}
+
 void solve() {
+  ll n; cin >> n;
+  ll lr[n+1][2];
+  adj.resize(n+1);
+  dp.resize(n+1);
+  visited.resize(n+1);
+
+  REP(i,0,n+1) {
+    dp[i].resize(2);
+    visited[i] = false;
+  }
+
+  lr[0][0] = 0;
+  lr[0][1] = 1;
+
+  REP(i,1,n+1) {
+    cin >> lr[i][0] >> lr[i][1];
+  }
+
+  REP(i,1,n) {
+    ll a, b;
+    cin >> a >> b;
+    adj[a].pb(b);
+    adj[b].pb(a);
+  }
 
 }
 
@@ -151,17 +185,12 @@ int main() {
   cin.tie(0);
   cout.tie(0);
 
-  /*
-  // for multiple testcase problems
 
   ll t; cin >> t;
   while(t--) {
     solve();
   }
 
-  */
-
-  solve();
 
   return 0;
 }
