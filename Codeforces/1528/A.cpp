@@ -11,8 +11,7 @@ using namespace std;
 #define mp make_pair
 #define sc second
 #define fi first
-typedef long long ll;
-# define ll long long
+# define ll long long int
 # define ld long double
 # define REP(i,x,y) for(ll i=x;i<y;i++)
 # define RREP(i,x,y) for(ll i=x;i>=y;i--)
@@ -143,29 +142,24 @@ bool isPrime(ll n)
 /************************/
 
 VVI adj;
-VI visited;
-VVI dp[100001][2];
+ll dp[200001][2];
+ll lr[200001][2];
 
 void dfs(ll n, ll par) {
-  visited[n] = true;
-
-
+  dp[n][0] = dp[n][1] = 0;
+  for(ll i=0; i<adj[n].size(); i++) {
+    ll next = adj[n][i];
+    if(next==par) continue;
+    dfs(next, n);
+    dp[n][0] += max(dp[next][0]+abs(lr[next][0]-lr[n][0]), dp[next][1]+abs(lr[next][1]-lr[n][0]));
+    dp[n][1] += max(dp[next][0]+abs(lr[next][0]-lr[n][1]), dp[next][1]+abs(lr[next][1]-lr[n][1]));
+  }
 }
 
 void solve() {
   ll n; cin >> n;
-  ll lr[n+1][2];
+  adj.clear();
   adj.resize(n+1);
-  dp.resize(n+1);
-  visited.resize(n+1);
-
-  REP(i,0,n+1) {
-    dp[i].resize(2);
-    visited[i] = false;
-  }
-
-  lr[0][0] = 0;
-  lr[0][1] = 1;
 
   REP(i,1,n+1) {
     cin >> lr[i][0] >> lr[i][1];
@@ -177,6 +171,10 @@ void solve() {
     adj[a].pb(b);
     adj[b].pb(a);
   }
+
+  dfs(1,-1);
+
+  cout << max(dp[1][0], dp[1][1]) << endl;
 
 }
 
