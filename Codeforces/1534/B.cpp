@@ -142,50 +142,50 @@ bool isPrime(ll n)
 
 /************************/
 
-VVI graf;
-VB visited;
-
-ll dfs(ll n, ll par) {
-  visited[n] = true;
-  rep(i,0,graf[n].size()) {
-    ll cur = graf[n][i];
-    if(!visited[cur])
-      return 1 + dfs(cur,n);
-    else if(cur!=par)
-      return 0;
-  }
-  return 0; // case 2
-}
-
 void solve() {
-
-  ll n; cin >> n; ll a[n+1][2];
-
-  graf.resize(n+1);
-  visited.resize(n+1);
-
-  rep(i,0,n+1) visited[i]=false;
-  for(ll i=1; i<=n; i++) {
-    cin >> a[i][0];
-  }
-  for(ll i=1; i<=n; i++) {
-    cin >> a[i][1];
-  }
-
-  for(ll i=1; i<=n; i++) {
-    graf[a[i][0]].pb(a[i][1]);
-    graf[a[i][1]].pb(a[i][0]);
-  }
+  ll n; cin >> n;
+  ll a[n];
 
   ll ans = 0;
-  for(ll i=1; i<=n; i++) {
-    if(!visited[i]) {
-      dfs(i,-1);
-      ans++;
+  ll op = 0;
+
+  rep(i,0,n) {
+    cin >> a[i];
+    if(i==n-1) ans+=a[i];
+    if(i==0) ans+=a[i];
+    else ans+=abs(a[i]-a[i-1]);
+  }
+
+
+  if(n==1) {
+    cout << a[0] << endl;
+    return;
+  }
+
+  rep(i,0,n) {
+    if(i==0) {
+      if(a[i]>a[i+1]) {
+        op+=(a[i]-a[i+1]);
+        a[i]=a[i+1];
+      }
+      continue;
+    }
+
+    if(i==n-1) {
+      if(a[i]>a[i-1]) {
+        op+=(a[i]-a[i-1]);
+        a[i]=a[i-1];
+      }
+      continue;
+    }
+
+    if(a[i]>a[i-1]&&a[i]>a[i+1]) {
+      op+=(a[i]-max(a[i-1],a[i+1]));
+      a[i]=max(a[i+1],a[i-1]);
     }
   }
 
-  cout << mod(power(2,ans)) << endl;
+  cout << ans-op << endl;
 
 }
 
@@ -200,8 +200,6 @@ int main() {
   ll t; cin >> t;
   while(t--) {
     solve();
-    visited.clear();
-    graf.clear();
   }
 
   return 0;
