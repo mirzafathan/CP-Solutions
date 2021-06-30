@@ -143,6 +143,36 @@ bool isPrime(ll n)
 /************************/
 
 void solve() {
+  ll n; cin >> n;
+  VI d(n);
+  VI presum(n);
+
+  REP(i,0,n) cin >> d[i];
+
+  sort(d.begin(), d.end());
+
+
+  if(n<=2) {
+    cout << 0 << endl;
+    return;
+  }
+
+  ll sum = d[0];
+  presum[0] = 0;
+  presum[n-1] = 0;
+
+  REP(i,1,n) {
+    presum[i]= presum[i-1]+d[i];
+    sum += d[i];
+  }
+
+  ll ans = 0;
+
+  REP(i,0,n) {
+  ans-= (sum-presum[i])-(n-i-1)*d[i];
+  }
+
+  cout << ans+d.bk() << endl;
 
 }
 
@@ -151,17 +181,10 @@ int main() {
   cin.tie(0);
   cout.tie(0);
 
-  /*
-  // for multiple testcase problems
 
   ll t; cin >> t;
-  while(t--) {
-    solve();
-  }
+  while(t--) solve();
 
-  */
-
-  solve();
 
   return 0;
 }
