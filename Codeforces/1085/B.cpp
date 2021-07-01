@@ -143,6 +143,16 @@ bool isPrime(ll n)
 /************************/
 
 void solve() {
+  ll n, k;
+
+  cin >> n >> k;
+
+  ll ans = INF8;
+  for(ll i=1; i<k; i++) {
+    if(n%i!=0) continue;
+    ans = min(ans, (n/i)*k+i);
+  }
+  cout << ans << endl;
 
 }
 
@@ -151,15 +161,6 @@ int main() {
   cin.tie(0);
   cout.tie(0);
 
-  /*
-  // for multiple testcase problems
-
-  ll t; cin >> t;
-  while(t--) {
-    solve();
-  }
-
-  */
 
   solve();
 
