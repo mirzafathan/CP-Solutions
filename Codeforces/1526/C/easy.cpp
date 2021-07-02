@@ -3,25 +3,36 @@
 using namespace std;
 
 void solve() {
-  long long x; cin >> x;
-  long long a, b, c, rem;
-  for(long long i=0; i<=10; i++) {
-    if(i*111>x) break;
-    if(i>0) {
-      if(x%(i*111)==0) {
-        cout << "YES" << endl;
-        return;
+  long long n; cin >> n;
+  vector<long long> a(n+1);
+
+  priority_queue<long long,
+  vector<long long>,
+  greater<long long> > most_neg;
+
+  long long cur_health = 0;
+  long long ans = 0;
+
+  for(long long i=1; i<=n; i++) {
+    cin >> a[i];
+    if(cur_health+a[i]>=0) {
+      cur_health+=a[i];
+      if(a[i]<0) most_neg.push(a[i]);
+      ans++;
+    } else {
+      if(!most_neg.empty()) {
+      if(most_neg.top()<a[i]) {
+        cur_health-=most_neg.top();
+        most_neg.pop();
+        cur_health+=a[i];
+        most_neg.push(a[i]);
       }
     }
-
-    rem = x - i*111;
-
-    if(rem%11==0) {
-      cout << "YES" << endl;
-      return;
     }
   }
-  cout << "NO" << endl;
+
+  cout << ans << endl;
+
 }
 
 int main() {
@@ -29,10 +40,8 @@ int main() {
   cin.tie(0);
   cout.tie(0);
 
-  long long t; cin >> t;
-  while(t--) {
+
     solve();
-  }
 
   return 0;
 }
