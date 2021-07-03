@@ -142,6 +142,18 @@ bool isPrime(ll n)
 /************************/
 
 void solve() {
+  ll n; cin >> n;
+  VI u(n+1);
+  VI s(n+1);
+
+  rep(i,1,n+1) {
+    cin >> u[i];
+  }
+
+  rep(i,1,n+1) {
+    cin >> s[i];
+  }
+
 
 }
 
@@ -150,17 +162,11 @@ int main() {
   cin.tie(0);
   cout.tie(0);
 
-  /*
-  // for multiple testcase problems
-
   ll t; cin >> t;
   while(t--) {
     solve();
   }
 
-  */
-
-  solve();
 
   return 0;
 }
