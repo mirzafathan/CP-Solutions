@@ -11,15 +11,14 @@ using namespace std;
 #define mp make_pair
 #define sc second
 #define fi first
-typedef long long ll;
 # define ll long long
 # define ld long double
-# define REP(i,x,y) for(ll i=x;i<y;i++)
-# define RREP(i,x,y) for(ll i=x;i>=y;i--)
-# define DEBUG_STL(x) for(auto i:x){cout<<i<<" ";}cout<<endl;
-# define DEBUG_1D(x,a,b) FOR(i,a,b){cout<<x[i]<<" ";}cout<<endl;
-# define DEBUG_2D(x,a1,b1,a2,b2) FOR(i,a1,b1){FOR(j,a2,b2){cout<<x[i][j]<<" ";}cout<<endl;}
-# define ALL(x) x.begin(), x.end()
+# define rep(i,x,y) for(ll i=x;i<y;i++)
+# define rrep(i,x,y) for(ll i=x;i>=y;i--)
+# define debug_stl(x) for(auto i:x){cout<<i<<" ";}cout<<endl;
+# define debug_1d(x,a,b) rep(i,a,b){cout<<x[i]<<" ";}cout<<endl;
+# define debug_2d(x,a1,b1,a2,b2) rep(i,a1,b1){rep(j,a2,b2){cout<<x[i][j]<<" ";}cout<<endl;}
+# define all(x) x.begin(), x.end()
 # define MOD (ll)(1e9+7)
 # define INF8 (ll)(1e17+5)
 # define endl '\n'
