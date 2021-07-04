@@ -144,15 +144,45 @@ bool isPrime(ll n)
 void solve() {
   ll n; cin >> n;
   VI u(n+1);
-  VI s(n+1);
+  VVI t(n+1);
+  VVI prefix(n+1);
 
   rep(i,1,n+1) {
     cin >> u[i];
   }
 
   rep(i,1,n+1) {
-    cin >> s[i];
+    ll in;
+    cin >> in;
+    t[u[i]].pb(in);
   }
+
+  rep(i,1,n+1) {
+    sort(all(t[i]), greater<ll>());
+  }
+
+  rep(i,1,n+1) {
+    prefix[i].resize(t[i].size());
+    rep(j,0,t[i].size()) {
+      prefix[i][j] = t[i][j];
+      if(j>0) prefix[i][j]+=prefix[i][j-1];
+    }
+  }
+
+  rep(i,1,n+1) {
+    ll ans = 0;
+    rep(j,1,n+1) {
+      ll sz = prefix[j].size();
+      if(sz>=i) {
+        ll sub = sz%i;
+        ans+=prefix[j][sz-1-sub];
+
+      }
+    }
+    cout << ans << " ";
+  }
+
+  cout << endl;
 
 
 }
