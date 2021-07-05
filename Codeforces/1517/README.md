@@ -1,6 +1,6 @@
 بسم الله الرحمن الرحيم
 <br />
-# This is template file <contest_name>
+# Contest 2050 and Codeforces Round #718 (Div. 1 + Div. 2)
 ## Solved Problems:
-### [xyza](link) <br/><br/>
+### [1517C](https://codeforces.com/problemset/problem/1517/C) <br/><br/>
 **Muhammad Mirza Fathan | 2021**
