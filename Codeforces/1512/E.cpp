@@ -11,17 +11,17 @@ using namespace std;
 #define mp make_pair
 #define sc second
 #define fi first
-#define ll long long
-#define ld long double
-#define rep(i,x,y) for(ll i=x;i<y;i++)
-#define rrep(i,x,y) for(ll i=x;i>=y;i--)
-#define debug_stl(x) for(auto i:x){cout<<i<<" ";}cout<<endl;
-#define debug_1d(x,a,b) rep(i,a,b){cout<<x[i]<<" ";}cout<<endl;
-#define debug_2d(x,a1,b1,a2,b2) rep(i,a1,b1){rep(j,a2,b2){cout<<x[i][j]<<" ";}cout<<endl;}
-#define all(x) x.begin(), x.end()
-#define MOD (ll)(1e9+7)
-#define INF8 (ll)(1e17+5)
-#define endl '\n'
+# define ll long long
+# define ld long double
+# define rep(i,x,y) for(ll i=x;i<y;i++)
+# define rrep(i,x,y) for(ll i=x;i>=y;i--)
+# define debug_stl(x) for(auto i:x){cout<<i<<" ";}cout<<endl;
+# define debug_1d(x,a,b) rep(i,a,b){cout<<x[i]<<" ";}cout<<endl;
+# define debug_2d(x,a1,b1,a2,b2) rep(i,a1,b1){rep(j,a2,b2){cout<<x[i][j]<<" ";}cout<<endl;}
+# define all(x) x.begin(), x.end()
+# define MOD (ll)(1e9+7)
+# define INF8 (ll)(1e17+5)
+# define endl '\n'
 
 typedef vector<ll> VI;
 typedef vector<bool> VB;
@@ -142,25 +142,7 @@ bool isPrime(ll n)
 /************************/
 
 void solve() {
-  ll n,m,x; cin >> n >> m >> x;
-  VP h;
-  VI ans(n+1);
 
-  rep(i,1,n+1) {
-    ll in; cin >> in;
-    h.pb(mp(in,i));
-  }
-
-  sort(all(h));
-
-  rep(i,1,n+1) {
-    ans[h[i-1].second] = (i%m)+1;
-  }
-
-  cout << "YES" << endl;
-  rep(i,1,n+1) {
-    cout << ans[i] << " ";
-  } cout << endl;
 }
 
 int main() {
@@ -168,11 +150,17 @@ int main() {
   cin.tie(0);
   cout.tie(0);
 
+  /*
+  // for multiple testcase problems
+
   ll t; cin >> t;
   while(t--) {
     solve();
   }
 
+  */
+
+  solve();
 
   return 0;
 }
