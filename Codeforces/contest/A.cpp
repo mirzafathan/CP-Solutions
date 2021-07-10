@@ -45,11 +45,11 @@ void solve() {
   ll fx, fy; cin >> fx >> fy;
 
   if((fx==x0 && x0==x1 && inbetween(y0,y1,fy)) || (fy==y0 && y0==y1 && inbetween(x0,x1,fx))) {
-    ans.pb(abs(y1-y0)+abs(x1-x0)+2);
+    cout << (abs(y1-y0)+abs(x1-x0)+2) << endl;
     return;
   }
 
-  ans.pb(abs(y1-y0)+abs(x1-x0));
+  cout << abs(y1-y0)+abs(x1-x0) << endl;
 
 }
 
@@ -64,10 +64,6 @@ int main() {
 
   while(t--) {
     solve();
-  }
-
-  rep(i,0,ans.size()) {
-    cout << ans[i] << endl;
   }
 
 
