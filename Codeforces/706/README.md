@@ -1,6 +1,6 @@
 بسم الله الرحمن الرحيم
 <br />
-# This is template file <contest_name>
+# Codeforces Round #367 (Div. 2)
 ## Solved Problems:
-### [xyza](link) <br/><br/>
+### [706C](linhttps://codeforces.com/problemset/problem/706/C) <br/><br/>
 **Muhammad Mirza Fathan | 2021**
