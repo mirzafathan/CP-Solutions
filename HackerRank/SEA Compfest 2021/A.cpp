@@ -2,9 +2,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-/************************/
-/* TEMPLATES */
-
 #define fr front
 #define bk back
 #define pb push_back
@@ -142,6 +139,15 @@ bool isPrime(ll n)
 /************************/
 
 void solve() {
+  ll n; cin >> n;
+  VI x(n); rep(i,0,n) cin >> x[i];
+  sort(x.begin(), x.end());
+  ll q; cin >> q;
+  rep(i,1,q+1) {
+    ll in; cin >> in;
+    cout << lower_bound(x.begin(), x.end(), in+1) - x.begin() << endl;
+  }
+
 
 }
 
