@@ -142,7 +142,34 @@ bool isPrime(ll n)
 /************************/
 
 void solve() {
+  ll n, k; cin >> n >> k;
+  VI r(n), l(n), a(k), t(n);
+  rep(i,0,k) cin >> a[i];
+  rep(i,0,k) cin >> t[a[i]-1];
 
+/*
+  rep(i,0,n) {
+    r[i] = l[i] = INF8;
+  }*/
+
+  r[n-1] = INF8;
+  l[0] = INF8;
+
+  if(t[0]!=0) l[0] = t[0];
+  if(t[n-1]!=0) r[n-1] = t[n-1];
+
+  rep(i,1,n) {
+    l[i] = l[i-1]+1;
+    if(t[i]!=0) l[i] = min(l[i], t[i]);
+  }
+
+  rrep(i,n-2,0) {
+    r[i] = r[i+1]+1;
+    if(t[i]!=0) r[i] = min(r[i], t[i]);
+  }
+
+  rep(i,0,n) cout << min(r[i],l[i]) << " ";
+  cout << endl;
 }
 
 int main() {
@@ -150,17 +177,12 @@ int main() {
   cin.tie(0);
   cout.tie(0);
 
-  /*
-  // for multiple testcase problems
 
   ll t; cin >> t;
   while(t--) {
+    cout << endl;
     solve();
   }
-
-  */
-
-  solve();
 
   return 0;
 }
