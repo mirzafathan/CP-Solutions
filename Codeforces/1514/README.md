@@ -1,4 +1,4 @@
-بسم الله الرحمن الرحيم
+بسم الله  الرحمن الرحيم
 <br />
 # Codeforces Round #716 (Div. 2)
 ## Solved Problems:
