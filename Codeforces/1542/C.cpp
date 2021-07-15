@@ -62,7 +62,6 @@ void solve() {
 
   rep(i,2,n+1) {
     ll lcmn = lcm(lcmi,i);
-  //  cout << i << " " << i*((n/lcmi)-(n/lcmn)) << endl;
     ans+=i*((n/lcmi)-(n/lcmn));
     ans = mod(ans);
     lcmi = lcmn;
