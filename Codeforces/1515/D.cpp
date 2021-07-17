@@ -79,9 +79,9 @@ void solve() {
         left[itr->first]-=(num*2);
 
       } else {
-        ans+=dif;
-        sizeleft-=(dif*2);
-        left[itr->first]-=(dif*2);
+        ans+=(dif/2);
+        sizeleft-=(dif);
+        left[itr->first]-=(dif);
       }
     }
     if(sizeleft==sizeright) break;
