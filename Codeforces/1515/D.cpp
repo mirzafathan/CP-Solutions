@@ -2,9 +2,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-/************************/
-/* TEMPLATES */
-
 #define fr front
 #define bk back
 #define pb push_back
@@ -32,117 +29,102 @@ typedef pair<ll,PI > PPI;
 typedef vector<PI> VP;
 typedef vector<PPI> VPP;
 
-vector<ll> primeList;
-vector<bool> primes;
-
-
-ll mod(ll x) {
-  return (x%MOD + MOD)%MOD;
-}
-
-ll power(ll x, ll y) {
-  ll res = 1;
-  x = x%MOD;
-  if (x == 0) return 0;
-  while (y > 0) {
-    if (y&1) res = mod(res * x);
-    y >>= 1; x = mod(x * x);
-  }
-  return res;
-}
-
-ll gcd(ll a, ll b)
-{
-    if (a == 0)
-      return b;
-    if (b == 0)
-      return a;
-
-    if (a == b)
-      return a;
-    if (a > b)
-        return gcd(a%b, b);
-    return gcd(a, b%a);
-}
-
-void sieve() {
-  primes[0] = false;
-  primes[1] = false;
-  for(ll i=2; i<primes.size(); i++) primes[i] = true;
-
-  for(ll i=2; i*i<primes.size(); i++) {
-    if(primes[i]) {
-      for(ll j=i*i; j<primes.size(); j+=i)
-        primes[j] = false;
-    }
-  }
-  for(ll i=2; i<primes.size(); i++) {
-    if(primes[i]) primeList.push_back(i);
-  }
-
-}
-
-bool isPrime(ll n)
-{
-    if (n <= 1)
-        return false;
-    if (n <= 3)
-        return true;
-
-    if (n % 2 == 0 || n % 3 == 0)
-        return false;
-
-    for (ll i = 5; i * i <= n; i = i + 6)
-        if (n % i == 0 || n % (i + 2) == 0)
-            return false;
-
-    return true;
-}
-
-
-/* From hu_tao:
-
-        Random stuff to try when stuck:
-           -if it's 2C then it's dp
-           -for combo/probability problems, expand the given form we're interested in
-           -make everything the same then build an answer (constructive, make everything 0 then do something)
-           -something appears in parts of 2 --> model as graph
-           -assume a greedy then try to show why it works
-           -find way to simplify into one variable if multiple exist
-           -treat it like fmc (note any passing thoughts/algo that could be used so you can revisit them)
-           -find lower and upper bounds on answer
-           -figure out what ur trying to find and isolate it
-           -see what observations you have and come up with more continuations
-           -work backwards (in constructive, go from the goal to the start)
-           -turn into prefix/suffix sum argument (often works if problem revolves around adjacent array elements)
-           -instead of solving for answer, try solving for complement (ex, find n-(min) instead of max)
-           -draw something
-           -simulate a process
-           -dont implement something unless if ur fairly confident its correct
-           -after 3 bad submissions move on to next problem if applicable
-           -do something instead of nothing and stay organized
-           -write stuff down
-        Random stuff to check when wa:
-           -if code is way too long/cancer then reassess
-           -switched N/M
-           -int overflow
-           -switched variables
-           -wrong MOD
-           -hardcoded edge case incorrectly
-        Random stuff to check when tle:
-           -continue instead of break
-           -condition in for/while loop bad
-        Random stuff to check when rte:
-           -switched N/M
-           -long to int/int overflow
-           -division by 0
-           -edge case for empty list/data structure/N=1
-     */
-
-/************************/
 
 void solve() {
+  ll n, l, r;
+  cin >> n >> l >> r;
 
+  map<ll,ll> left;
+  map<ll,ll> right;
+  map<ll,ll>::iterator itr;
+
+  rep(i,0,l) {
+    ll in; cin >> in;
+    left[in]++;
+  }
+
+  rep(i,l,n) {
+    ll in; cin >> in;
+    right[in]++;
+  }
+
+  for(itr=left.begin(); itr!=left.end(); itr++) {
+    ll sub = min(itr->second, right[itr->first]);
+    left[itr->first]-=sub;
+    right[itr->first]-=sub;
+  }
+
+  ll ans = 0;
+
+  ll sizeright = 0;
+  ll sizeleft = 0;
+
+  for(itr=left.begin(); itr!=left.end(); itr++) {
+    sizeleft+=(itr->second);
+  }
+
+  for(itr=right.begin(); itr!=right.end(); itr++) {
+    sizeright+=(itr->second);
+  }
+
+  if(sizeleft>sizeright) {
+  for(itr=left.begin(); itr!=left.end(); itr++) {
+    if(itr->second > 1) {
+      ll num = itr->second/2;
+      ll dif = sizeleft-sizeright;
+
+      if(num<dif) {
+        ans+=num;
+        sizeleft-=(num*2);
+        left[itr->first]-=(num*2);
+
+      } else {
+        ans+=dif;
+        sizeleft-=(dif*2);
+        left[itr->first]-=(dif*2);
+      }
+    }
+    if(sizeleft==sizeright) break;
+  }
+  }
+
+  if(sizeright>sizeleft) {
+  for(itr=right.begin(); itr!=right.end(); itr++) {
+    if(itr->second > 1) {
+      ll num = itr->second/2;
+      ll dif = sizeright-sizeleft;
+
+      if(num<dif) {
+        ans+=num;
+        sizeright-=(num*2);
+        right[itr->first]-=(num*2);
+
+      } else {
+        ans+=(dif/2);
+        sizeright-=(dif);
+        right[itr->first]-=(dif);
+      }
+    }
+    if(sizeleft==sizeright) break;
+  }
+  }
+
+//  cout << "left" << sizeleft << endl;
+  //cout << "right" << sizeright << endl;
+
+//  cout << ans << endl;
+
+  if(sizeleft==sizeright) ans+=sizeleft;
+  else {
+
+    ll dif = max(sizeleft,sizeright) - min(sizeleft,sizeright);
+    ans+=min(sizeleft,sizeright);
+
+//cout << "here " << ans << endl;
+    ans+=(dif);
+  }
+
+  cout << ans << endl;
 }
 
 int main() {
@@ -150,17 +132,12 @@ int main() {
   cin.tie(0);
   cout.tie(0);
 
-  /*
-  // for multiple testcase problems
 
   ll t; cin >> t;
   while(t--) {
     solve();
   }
 
-  */
-
-  solve();
 
   return 0;
 }
