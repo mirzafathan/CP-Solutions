@@ -35,42 +35,41 @@ typedef vector<PPI> VPP;
 void solve() {
   ll n; cin >> n;
   VI q(n); rep(i,0,n) cin >> q[i];
+  set<ll> a, b;
   VI ans1(n), ans2(n);
+
+  rep(i,1,n+1) {
+    a.insert(i);
+    b.insert(i);
+  }
 
   rep(i,0,n) {
     ans1[i] = 0;
     ans2[i] = 0;
   }
 
-  rep(i,1,n+1) {
-    rep(j,0,n) {
-      if(q[j]>i) {
-        if(j>0) {
-          if(q[j-1]==q[j] && ans1[j]==0) {
-            ans1[j]=i;
-            break;
-          }
-        }
-      } else if(q[j]==i) {
-        ans1[j]=i;
-        break;
-      }
+  ans1[0]=q[0];
+  a.erase(q[0]);
+  rep(i,1,n) {
+    if(q[i]==q[i-1]) {
+      ans1[i]=*(a.begin());
+      a.erase(a.begin());
+    } else {
+      ans1[i]=q[i];
+      a.erase(q[i]);
     }
   }
 
-  rrep(i,n,1) {
-    rep(j,0,n) {
-      if(q[j]>i) {
-        if(j>0) {
-          if(q[j-1]==q[j] && ans2[j]==0) {
-            ans2[j]=i;
-            break;
-          }
-        }
-      } else if(q[j]==i) {
-        ans2[j]=i;
-        break;
-      }
+  ans2[0] = q[0];
+  b.erase(q[0]);
+  rep(i,1,n) {
+    if(q[i]==q[i-1]) {
+      set<ll>::iterator it = --b.lower_bound(q[i]);
+      ans2[i]=(*it);
+      b.erase(it);
+    } else {
+      ans2[i]=q[i];
+      b.erase(q[i]);
     }
   }
 
