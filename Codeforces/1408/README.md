@@ -1,6 +1,6 @@
 بسم الله الرحمن الرحيم
 <br />
-# This is template file <contest_name>
+# Grakn Forces 2020
 ## Solved Problems:
-### [xyza](link) <br/><br/>
+### [1408B - Array Sum](https://codeforces.com/problemset/problem/1408/B) <br/><br/>
 **Muhammad Mirza Fathan | 2021**
