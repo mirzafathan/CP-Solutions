@@ -1,6 +1,6 @@
 بسم الله الرحمن الرحيم
 <br />
-# This is template file <contest_name>
+# Codeforces Round #733 (Div. 1 + Div. 2, based on VK Cup 2021 - Elimination (Engine))
 ## Solved Problems:
-### [xyza](link) <br/><br/>
+### [1530D Secret Santa](https://codeforces.com/problemset/problem/1530/D) <br/><br/>
 **Muhammad Mirza Fathan | 2021**
