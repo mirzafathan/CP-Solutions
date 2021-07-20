@@ -2,9 +2,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-/************************/
-/* TEMPLATES */
-
 #define fr front
 #define bk back
 #define pb push_back
@@ -32,98 +29,65 @@ typedef pair<ll,PI > PPI;
 typedef vector<PI> VP;
 typedef vector<PPI> VPP;
 
-VVI a;
-VI visited;
+VI a;
+VB visited;
 ll n, p;
 VI ans;
 
-ll dfs(ll n, ll k) {
-  k++;
-  visited[n] = true;
-  if(!visited[a[n][0]]) {
-    dfs(a[n][0], k);
-  }
-  return k;
-}
-
-ll dfs_all() {
-  ll k = 0;
-  ll res;
-  rep(i,1,n+1) {
-    rep(j,1,n+1) visited[j] = false;
-    if(dfs(i,0)>k) {
-      res = i;
-      k = i;
-    }
-  }
-  return res;
-}
-
-ll generate_ans(ll x) {
-  ll k = 0;
-  rep(i,0,visited.size()) visited[i] = false;
-  while(true) {
-    if(ans[x]==0 && visited[a[x][0]]==false) {
-      visited[a[x][0]] = true;
-      k++;
-      ans[x] = a[x][0];
-      x = a[x][0];
-    } else break;
-  }
-
-  rep(i,1,n+1) {
-    if(!visited[a[i][0]] && ans[i]==0) {
-      visited[a[i][0]] = true;
-      ans[i] = a[i][0];
-      cout << i << "aio" << a[i][0] << endl;
-      k++;
-    }
-  }
-
-  return k;
-}
-
 void generate_rest() {
-
-  queue<ll> temp;
+  queue<ll> rest;
 
   rep(i,1,n+1) {
-    if(ans[i]==0) {
-      temp.push(i);
-      if(temp.size()>1) {
-        ans[i] = temp.front();
-        temp.pop();
+    if(!visited[i]) {
+      rest.push(i);
+    }
+  }
+
+  while(true) {
+    bool done = true;
+    rep(i,1,n+1) {
+      if(ans[i]==0) {
+        done = false;
+        if(rest.front()!=i) {
+          ans[i] = rest.front();
+          rest.pop();
+        }
       }
     }
-  }
-
-  rep(i,1,n+1) {
-    if(ans[i]==0) {
-      ans[i] = temp.front();
-      temp.pop();
-      break;
-    }
+    if(done) break;
   }
 }
 
 void generate_rest_if_one() {
-  ll x, y;
+  ll problem, solve;
   rep(i,1,n+1) {
-    if(visited[i]==false) {
-      x = i;
-      rep(j,1,n+1) {
-        if(ans[j]!=0) {
-          y = j;
-          break;
-        }
-      }
+    if(ans[i]==0) {
+      problem = i;
       break;
     }
   }
 
-  ll temp = ans[y];
-  ans[y] = ans[x];
-  ans[x] = temp;
+  rep(i,1,n+1) {
+    if(ans[i]==a[problem]) {
+      solve = i;
+      break;
+    }
+  }
+
+  if(visited[problem]) {
+    ll sol;
+    rep(i,1,n+1) {
+      if(!visited[i]) {
+        sol = i;
+        break;
+      }
+    }
+    ans[problem] = sol;
+    return;
+  }
+  ans[problem] = a[problem];
+  ans[solve] = problem;
+
 }
 
 void solve() {
@@ -131,27 +95,34 @@ void solve() {
   a.resize(n+1);
   ans.resize(n+1);
   visited.resize(n+1);
-  rep(i,1,n+1) {
-    ll in;
-    cin >> in;
-    a[i].pb(in);
+  p=0;
+
+  rep(i,0,n+1) {
     ans[i]=0;
+    visited[i]=false;
   }
-  p = generate_ans(dfs_all());
 
-  cout << p << endl;
-  rep(i,1,n+1) cout << ans[i] << ' ';
-  cout << endl;
-  generate_rest();
-
-  if((n-p)==1) {
-    generate_rest_if_one();
+  for(ll i=1; i<=n; i++) {
+    cin >> a[i];
   }
+
+  for(ll i=1; i<=n; i++) {
+    if(!visited[a[i]]) {
+      visited[a[i]] = true;
+      ans[i] = a[i];
+      p++;
+    }
+  }
+
+  if((n-p)!=1) generate_rest();
+  else generate_rest_if_one();
+
 
   cout << p << endl;
   rep(i,1,n+1) {
     cout << ans[i] << " ";
   } cout << endl;
+
 }
 
 int main() {
