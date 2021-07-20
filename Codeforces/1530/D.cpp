@@ -32,117 +32,126 @@ typedef pair<ll,PI > PPI;
 typedef vector<PI> VP;
 typedef vector<PPI> VPP;
 
-vector<ll> primeList;
-vector<bool> primes;
+VVI a;
+VI visited;
+ll n, p;
+VI ans;
 
-
-ll mod(ll x) {
-  return (x%MOD + MOD)%MOD;
+ll dfs(ll n, ll k) {
+  k++;
+  visited[n] = true;
+  if(!visited[a[n][0]]) {
+    dfs(a[n][0], k);
+  }
+  return k;
 }
 
-ll power(ll x, ll y) {
-  ll res = 1;
-  x = x%MOD;
-  if (x == 0) return 0;
-  while (y > 0) {
-    if (y&1) res = mod(res * x);
-    y >>= 1; x = mod(x * x);
+ll dfs_all() {
+  ll k = 0;
+  ll res;
+  rep(i,1,n+1) {
+    rep(j,1,n+1) visited[j] = false;
+    if(dfs(i,0)>k) {
+      res = i;
+      k = i;
+    }
   }
   return res;
 }
 
-ll gcd(ll a, ll b)
-{
-    if (a == 0)
-      return b;
-    if (b == 0)
-      return a;
+ll generate_ans(ll x) {
+  ll k = 0;
+  rep(i,0,visited.size()) visited[i] = false;
+  while(true) {
+    if(ans[x]==0 && visited[a[x][0]]==false) {
+      visited[a[x][0]] = true;
+      k++;
+      ans[x] = a[x][0];
+      x = a[x][0];
+    } else break;
+  }
 
-    if (a == b)
-      return a;
-    if (a > b)
-        return gcd(a%b, b);
-    return gcd(a, b%a);
-}
-
-void sieve() {
-  primes[0] = false;
-  primes[1] = false;
-  for(ll i=2; i<primes.size(); i++) primes[i] = true;
-
-  for(ll i=2; i*i<primes.size(); i++) {
-    if(primes[i]) {
-      for(ll j=i*i; j<primes.size(); j+=i)
-        primes[j] = false;
+  rep(i,1,n+1) {
+    if(!visited[a[i][0]] && ans[i]==0) {
+      visited[a[i][0]] = true;
+      ans[i] = a[i][0];
+      cout << i << "aio" << a[i][0] << endl;
+      k++;
     }
   }
-  for(ll i=2; i<primes.size(); i++) {
-    if(primes[i]) primeList.push_back(i);
+
+  return k;
+}
+
+void generate_rest() {
+
+  queue<ll> temp;
+
+  rep(i,1,n+1) {
+    if(ans[i]==0) {
+      temp.push(i);
+      if(temp.size()>1) {
+        ans[i] = temp.front();
+        temp.pop();
+      }
+    }
   }
 
+  rep(i,1,n+1) {
+    if(ans[i]==0) {
+      ans[i] = temp.front();
+      temp.pop();
+      break;
+    }
+  }
 }
 
-bool isPrime(ll n)
-{
-    if (n <= 1)
-        return false;
-    if (n <= 3)
-        return true;
+void generate_rest_if_one() {
+  ll x, y;
+  rep(i,1,n+1) {
+    if(visited[i]==false) {
+      x = i;
+      rep(j,1,n+1) {
+        if(ans[j]!=0) {
+          y = j;
+          break;
+        }
+      }
+      break;
+    }
+  }
 
-    if (n % 2 == 0 || n % 3 == 0)
-        return false;
-
-    for (ll i = 5; i * i <= n; i = i + 6)
-        if (n % i == 0 || n % (i + 2) == 0)
-            return false;
-
-    return true;
+  ll temp = ans[y];
+  ans[y] = ans[x];
+  ans[x] = temp;
 }
-
-
-/* From hu_tao:
-
-        Random stuff to try when stuck:
-           -if it's 2C then it's dp
-           -for combo/probability problems, expand the given form we're interested in
-           -make everything the same then build an answer (constructive, make everything 0 then do something)
-           -something appears in parts of 2 --> model as graph
-           -assume a greedy then try to show why it works
-           -find way to simplify into one variable if multiple exist
-           -treat it like fmc (note any passing thoughts/algo that could be used so you can revisit them)
-           -find lower and upper bounds on answer
-           -figure out what ur trying to find and isolate it
-           -see what observations you have and come up with more continuations
-           -work backwards (in constructive, go from the goal to the start)
-           -turn into prefix/suffix sum argument (often works if problem revolves around adjacent array elements)
-           -instead of solving for answer, try solving for complement (ex, find n-(min) instead of max)
-           -draw something
-           -simulate a process
-           -dont implement something unless if ur fairly confident its correct
-           -after 3 bad submissions move on to next problem if applicable
-           -do something instead of nothing and stay organized
-           -write stuff down
-        Random stuff to check when wa:
-           -if code is way too long/cancer then reassess
-           -switched N/M
-           -int overflow
-           -switched variables
-           -wrong MOD
-           -hardcoded edge case incorrectly
-        Random stuff to check when tle:
-           -continue instead of break
-           -condition in for/while loop bad
-        Random stuff to check when rte:
-           -switched N/M
-           -long to int/int overflow
-           -division by 0
-           -edge case for empty list/data structure/N=1
-     */
-
-/************************/
 
 void solve() {
+  cin >> n;
+  a.resize(n+1);
+  ans.resize(n+1);
+  visited.resize(n+1);
+  rep(i,1,n+1) {
+    ll in;
+    cin >> in;
+    a[i].pb(in);
+    ans[i]=0;
+  }
+  p = generate_ans(dfs_all());
 
+  cout << p << endl;
+  rep(i,1,n+1) cout << ans[i] << ' ';
+  cout << endl;
+  generate_rest();
+
+  if((n-p)==1) {
+    generate_rest_if_one();
+  }
+
+  cout << p << endl;
+  rep(i,1,n+1) {
+    cout << ans[i] << " ";
+  } cout << endl;
 }
 
 int main() {
@@ -150,17 +159,14 @@ int main() {
   cin.tie(0);
   cout.tie(0);
 
-  /*
-  // for multiple testcase problems
-
   ll t; cin >> t;
   while(t--) {
     solve();
+    a.clear();
+    visited.clear();
+    ans.clear();
   }
 
-  */
-
-  solve();
 
   return 0;
 }
