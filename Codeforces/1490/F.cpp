@@ -2,9 +2,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-/************************/
-/* TEMPLATES */
-
 #define fr front
 #define bk back
 #define pb push_back
@@ -73,13 +70,7 @@ void solve() {
     else
     suffix[i] = mp(suffix[i+1].first + groupbycnt[i], suffix[i+1].second);
   }
-/*
-  rep(i,0,maxn+1) cout << suffix[i].first << " ";
-  cout << endl;
-  rep(i,0,maxn+1) cout << suffix[i].second << " ";
-  cout << endl;
 
-  rep(i,0,prefix.size()) cout << prefix[i] << " ";
   cout << endl; */
 
   ll ans = suffix[1].first;
@@ -88,24 +79,6 @@ void solve() {
     if(newsol < ans) ans = newsol;
   }
   cout << min(ans, prefix[maxn-1]) << endl;
-/*
-  rep(i,0,groupbycnt.size()) cout << groupbycnt[i] << " ";
-  cout << endl;
-*/
-/*
-  rep(i,2,groupbycnt.size()) {
-    groupbycnt[i] += groupbycnt[i-1];
-  }
-  ll sol = INF8;
-  for(ll i=1; i<=n; i++) {
-    ll ans = 0;
-    for(it = ft.begin(); it!=ft.end(); ++it) {
-      if(it->second < i) ans+=it->second;
-      else ans+=(it->second - i);
-    }
-    if(ans<sol) sol = ans;
-  }
-  cout << sol << endl;*/
 }
 
 int main() {
@@ -119,8 +92,6 @@ int main() {
   while(t--) {
     solve();
   }
-
-
 
   return 0;
 }
