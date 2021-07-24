@@ -1,6 +1,6 @@
 بسم الله الرحمن الرحيم
 <br />
-# This is template file <contest_name>
+# Educational Codeforces Round 106 (Rated for Div. 2)
 ## Solved Problems:
-### [xyza](link) <br/><br/>
+### [1499C - Minimum Grid Path](https://codeforces.com/problemset/problem/1499/C) <br/><br/>
 **Muhammad Mirza Fathan | 2021**
