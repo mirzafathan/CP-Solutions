@@ -71,7 +71,7 @@ void solve() {
     suffix[i] = mp(suffix[i+1].first + groupbycnt[i], suffix[i+1].second);
   }
 
-  cout << endl; */
+  cout << endl; 
 
   ll ans = suffix[1].first;
   rep(i,1,maxn) {
