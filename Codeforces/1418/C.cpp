@@ -142,6 +142,22 @@ bool isPrime(ll n)
 /************************/
 
 void solve() {
+  ll n; cin >> n;
+  VI a(n+1); rep(i,1,n+1) cin >> a[i];
+
+  bool friend_move = true;
+  ll ans = 0;
+  rep(i,1,n+1) {
+    if(i<n) {
+      if(a[i+1]==1 && a[i]==1 && !friend_move) i++;
+      if(a[i+1]==0 && a[i]==0 && friend_move) i++;
+      if(a[i+1]==0 && a[i]==1 && friend_move) {ans++;i++;}
+      if(a[i+1]==1 && a[i]==0 && !friend_move) i++;
+      if(a[i+1]==1 && a[i]==1 && friend_move) {ans++;}
+    } else if(a[i]==1 && friend_move) ans++;
+    friend_move = !friend_move;
+  }
+  cout << ans << endl;
 
 }
 
@@ -150,17 +166,10 @@ int main() {
   cin.tie(0);
   cout.tie(0);
 
-  /*
-  // for multiple testcase problems
-
   ll t; cin >> t;
   while(t--) {
     solve();
   }
-
-  */
-
-  solve();
 
   return 0;
 }
