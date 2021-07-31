@@ -142,23 +142,6 @@ bool isPrime(ll n)
 /************************/
 
 void solve() {
-  string s, t;
-  cin >> s >> t;
-  while(!s.empty() && !t.empty()) {
-    if(s.back()==t.back()) {
-      s.pop_back();
-      t.pop_back();
-    } else {
-      s.pop_back();
-      if(s.empty()) {
-        cout << "NO" << endl;
-        return;
-      }
-      s.pop_back();
-    }
-  }
-  if(s.empty() && !t.empty()) cout << "NO" << endl;
-  else cout << "YES" << endl;
 
 }
 
@@ -167,11 +150,17 @@ int main() {
   cin.tie(0);
   cout.tie(0);
 
+  /*
+  // for multiple testcase problems
+
   ll t; cin >> t;
   while(t--) {
     solve();
   }
 
+  */
+
+  solve();
 
   return 0;
 }
