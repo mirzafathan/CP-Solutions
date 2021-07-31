@@ -31,33 +31,34 @@ typedef vector<PPI> VPP;
 
 string s, ab, ac, bc, ba, ca, cb;
 ll n;
+ll pre[200005][3][3];
 
 void solve() {
   ll l, r; cin >> l >> r;
-  ll a, b, c, d, e, f;
-  a = b = c = d = e = f = 0;
-  rep(i, l-1, r) {
-    if(ab[i]!=s[i]) {
-      a++;
+  ll temp[3][3];
+  if(l>1) {
+    rep(i,0,3) {
+      rep(j,0,3) {
+        temp[i][j] = pre[r-1][i][j] - pre[l-2][i][j];
+      }
     }
-    if(ac[i]!=s[i]) {
-      b++;
-    }
-    if(ba[i]!=s[i]) {
-      c++;
-    }
-    if(bc[i]!=s[i]) {
-      d++;
-    }
-    if(ca[i]!=s[i]) {
-      e++;
-    }
-    if(cb[i]!=s[i]) {
-      f++;
+  } else {
+    rep(i,0,3) {
+      rep(j,0,3) {
+        temp[i][j] = pre[r-1][i][j];
+      }
     }
   }
 
-  cout << min(a,min(b,min(c,min(d,min(e,f))))) << endl;
+  ll abc, acb, bac, bca, cba, cab;
+  abc = temp[0][1] + temp[0][2] + temp[1][0] + temp[1][2] + temp[2][1] + temp[2][0];
+  acb = temp[0][1] + temp[0][2] + temp[1][0] + temp[1][1] + temp[2][2] + temp[2][0];
+  bac = temp[0][0] + temp[0][2] + temp[1][1] + temp[1][2] + temp[2][1] + temp[2][0];
+  bca = temp[0][0] + temp[0][2] + temp[1][0] + temp[1][1] + temp[2][1] + temp[2][2];
+  cab = temp[0][1] + temp[0][0] + temp[1][1] + temp[1][2] + temp[2][2] + temp[2][0];
+  cba = temp[0][1] + temp[0][0] + temp[1][2] + temp[1][0] + temp[2][1] + temp[2][2];
+
+  cout << min(abc,min(acb,min(bac,min(bca,min(cab,cba))))) << endl;
 }
 
 int main() {
@@ -68,31 +69,22 @@ int main() {
   ll m; cin >> n >> m;
   cin >> s;
 
-  rep(i, 0, n) {
-    if(i%3==0) {
-      ab.push_back('a');
-      ac.push_back('a');
-      bc.push_back('b');
-      ba.push_back('b');
-      ca.push_back('c');
-      cb.push_back('c');
+  rep(i,0,3) {
+    rep(j,0,3) {
+      pre[0][i][j] = 0;
     }
-    if(i%3==1) {
-      ab.push_back('b');
-      ac.push_back('c');
-      bc.push_back('c');
-      ba.push_back('a');
-      ca.push_back('a');
-      cb.push_back('b');
+  }
+
+  rep(i,0,n) {
+    ll num = s[i] - 'a';
+    if(i>0) {
+      rep(j,0,3) {
+        rep(k,0,3) {
+          pre[i][j][k] = pre[i-1][j][k];
+        }
+      }
     }
-    if(i%3==2) {
-      ab.push_back('c');
-      ac.push_back('b');
-      bc.push_back('a');
-      ba.push_back('c');
-      ca.push_back('b');
-      cb.push_back('a');
-    }
+    pre[i][i%3][num]++;
   }
 
   while(m--) {
