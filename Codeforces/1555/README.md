@@ -5,5 +5,7 @@
 I participated in this contest. Only got 2 problems solved. Problem B was irritating.
 ### [1555A - PizzaForces](https://codeforces.com/contest/1555/problem/A)
 ### [1555B - Two Tables](https://codeforces.com/contest/1555/problem/B)
-### [1555C - Coin Rows (Unofficial)](https://codeforces.com/contest/1555/problem/C) <br/><br/>
+### [1555C - Coin Rows (Unofficial)](https://codeforces.com/contest/1555/problem/C)
+### [1555C - Say No to Palindromes (Unofficial)](https://codeforces.com/contest/1555/problem/D)
+<br/><br/>
 **Muhammad Mirza Fathan | 2021**
