@@ -35,70 +35,40 @@ const int N = 2e5 + 5;
 
 void solve() {
   ll n,m; cin >> n >> m;
-  vector< set<ll> > f(n+1);
+  VI total(n+1);
+  ll ans = 0;
+  rep(i,0,n+1) total[i] = 0;
   rep(i,0,m) {
     ll u,v; cin >> u >> v;
-    f[u].insert(v);
-    f[v].insert(u);
+    if(v>u) total[u]++;
+    else total[v]++;
   }
+
+  rep(i,1,n+1) {if(total[i]==0) ans++;}
+
   ll q; cin >> q;
   rep(i,0,q) {
     ll a, u, v; cin >> a;
     if(a==1) {
       cin >> u >> v;
-      f[u].insert(v);
-      f[v].insert(u);
+      if(u<v) {
+        total[u]++;
+        if(total[u]==1) ans--;
+      } else if (u>v) {
+        total[v]++;
+        if(total[v]==1) ans--;
+      }
     } else if(a==2) {
       cin >> u >> v;
-      f[u].erase(v);
-      f[v].erase(u);
+      if(u<v) {
+        total[u]--;
+        if((total[u])==0) ans++;
+      } else if(u>v) {
+        total[v]--;
+        if((total[v])==0) ans++;
+      }
     } else {
-      bool visited[N];
-      VI lower(n+1);
-      VI total(n+1);
-      rep(j,0,N) visited[j] = false;
-      ll ans = 0;
-      queue<ll> tovisit;
-      rep(j,1,n+1) {
-        if(f[j].empty()) {
-          total[j]=0;
-          lower[j]=0;
-          continue;
-        }
-        set<ll>::iterator it = f[j].lower_bound(j);
-        if(it == f[j].end()) {
-          lower[j] = f[j].size();
-          total[j] = 0;
-        } else {
-          if(*it > j) it--;
-          lower[j] = (ll)(it - f[j].begin());
-          total[j] = f[j].size()-lower[j];
-        }
-        if(lower[j]==0) {
-          tovisit.push(j);
-          visited[j]=true;
-        }
-      }
-
-  //    rep(i,0,lower.size()) { cout << lower[i] << " ";}
-    //  cout << endl;
-
-      while(!tovisit.empty()) {
-        ll cur = tovisit.front();
-        visited[cur] = true;
-        tovisit.pop();
-        ans++;
-        for(set<ll>::iterator it=f[cur].begin(); it!=f[cur].end(); it++) {
-          if(!visited[*it] && lower[*it]!=0 && total[*it]) {
-            lower[*it]--;
-            if(lower[*it]==0) tovisit.push(*it);
-          }
-        }
-//        rep(i,0,lower.size()) { cout << lower[i] << " ";}
-  //      cout << endl;
-      }
-
-      cout << n-ans << endl;
+      cout << ans << endl;
     }
   }
 

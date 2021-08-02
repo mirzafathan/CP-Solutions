@@ -38,7 +38,7 @@ void solve() {
   string a; cin >> a;
   string b; cin >> b;
   bool visited[N];
-  rep(i,0,N) visited[i] = false;
+  rep(i,0,n+1) visited[i] = false;
 
   ll ans = 0;
   rep(i,0,n) {
