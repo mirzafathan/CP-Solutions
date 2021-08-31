@@ -100,57 +100,31 @@ bool isPrime(ll n)
 }
 
 
-/* From hu_tao:
-
-        Random stuff to try when stuck:
-           -if it's 2C then it's dp
-           -for combo/probability problems, expand the given form we're interested in
-           -make everything the same then build an answer (constructive, make everything 0 then do something)
-           -something appears in parts of 2 --> model as graph
-           -assume a greedy then try to show why it works
-           -find way to simplify into one variable if multiple exist
-           -treat it like fmc (note any passing thoughts/algo that could be used so you can revisit them)
-           -find lower and upper bounds on answer
-           -figure out what ur trying to find and isolate it
-           -see what observations you have and come up with more continuations
-           -work backwards (in constructive, go from the goal to the start)
-           -turn into prefix/suffix sum argument (often works if problem revolves around adjacent array elements)
-           -instead of solving for answer, try solving for complement (ex, find n-(min) instead of max)
-           -draw something
-           -simulate a process
-           -dont implement something unless if ur fairly confident its correct
-           -after 3 bad submissions move on to next problem if applicable
-           -do something instead of nothing and stay organized
-           -write stuff down
-        Random stuff to check when wa:
-           -if code is way too long/cancer then reassess
-           -switched N/M
-           -int overflow
-           -switched variables
-           -wrong MOD
-           -hardcoded edge case incorrectly
-        Random stuff to check when tle:
-           -continue instead of break
-           -condition in for/while loop bad
-        Random stuff to check when rte:
-           -switched N/M
-           -long to int/int overflow
-           -division by 0
-           -edge case for empty list/data structure/N=1
-     */
-
-/************************/
-
 void solve() {
   ll n; cin >> n;
   ll a[n+1];
   rep(i,1,n+1) cin >> a[i];
 
   ll ans = 0;
-  rep(i,1,n) {
-    if(a[i]>(2*n)) continue;
-    rep(j,i+1,n+1) {
-      if((i+j)==(a[i]*a[j])) ans++;
+  rep(i,1,n+1) {
+    ll j;
+    if(a[i]>(2*i)) {
+      j = a[i] - i;
+    } else {
+      j = i+(a[i]-(i%a[i]));
+      ll m = (i+j)%a[i];
+      if(m) {
+        if((j-m)>i) j-=m;
+        else j+=(a[i]-m);
+      }
+      if(i%a[i]==0) j = i+a[i];
+    }
+    while(j<=n) {
+      if((a[i]*a[j])==(i+j)) {
+  //      cout << i << " " << j << endl;
+        ans++;
+      }
+      j+=a[i];
     }
   }
 
