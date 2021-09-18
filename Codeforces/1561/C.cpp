@@ -32,64 +32,37 @@ typedef pair<ll,PI > PPI;
 typedef vector<PI> VP;
 typedef vector<PPI> VPP;
 
-vector<ll> primeList;
-vector<bool> primes;
-
-void sieve() {
-  primes[0] = false;
-  primes[1] = false;
-  for(ll i=2; i<primes.size(); i++) primes[i] = true;
-
-  for(ll i=2; i*i<primes.size(); i++) {
-    if(primes[i]) {
-      for(ll j=i*i; j<primes.size(); j+=i)
-        primes[j] = false;
-    }
-  }
-  for(ll i=2; i<primes.size(); i++) {
-    if(primes[i]) primeList.push_back(i);
-  }
-
-}
-
-bool isPrime(ll n)
-{
-    if (n <= 1)
-        return false;
-    if (n <= 3)
-        return true;
-
-    if (n % 2 == 0 || n % 3 == 0)
-        return false;
-
-    for (ll i = 5; i * i <= n; i = i + 6)
-        if (n % i == 0 || n % (i + 2) == 0)
-            return false;
-
-    return true;
-}
-
 void solve() {
   ll n; cin >> n;
-  ll max_monster = 0;
   ll total_mons = 0;
+  ll kmax = INF8;
+  vector<pair<long long, long long> > b;
 
   rep(i,0,n) {
     ll k; cin >> k;
-    bool not_biggest = true;
+    ll max_monster = 0;
     rep(j,0,k) {
       ll a; cin >> a;
-      if(a-(j-1)>max_monster) {
+      if(a-(j-1)>=max_monster) {      
         max_monster = a-(j-1);
-        not_biggest = false;
+        if(k<kmax) kmax = k;
       }
     }
-    if(not_biggest) {
-      total_mons+=k;
-    }
+    total_mons+=k;
+    b.push_back(make_pair(max_monster, k));
   }
 
-  cout << max(max_monster - total_mons, (long long) 1) << endl;
+  sort(b.begin(), b.end());
+
+  ll ans = b[0].first;
+  ll kbefore = b[0].second;
+  rep(i,1,b.size()) {
+    ll p = b[i].first - kbefore;
+    if(p>ans) ans = p;
+    kbefore += b[i].second;
+  }
+
+  cout << ans << endl;
 
 }
 
