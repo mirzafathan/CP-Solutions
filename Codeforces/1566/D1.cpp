@@ -35,93 +35,27 @@ typedef vector<PPI> VPP;
 vector<ll> primeList;
 vector<bool> primes;
 
-
-ll mod(ll x) {
-  return (x%MOD + MOD)%MOD;
-}
-
-ll power(ll x, ll y) {
-  ll res = 1;
-  x = x%MOD;
-  if (x == 0) return 0;
-  while (y > 0) {
-    if (y&1) res = mod(res * x);
-    y >>= 1; x = mod(x * x);
-  }
-  return res;
-}
-
-ll gcd(ll a, ll b)
-{
-    if (a == 0)
-      return b;
-    if (b == 0)
-      return a;
-
-    if (a == b)
-      return a;
-    if (a > b)
-        return gcd(a%b, b);
-    return gcd(a, b%a);
-}
-
-void sieve() {
-  primes[0] = false;
-  primes[1] = false;
-  for(ll i=2; i<primes.size(); i++) primes[i] = true;
-
-  for(ll i=2; i*i<primes.size(); i++) {
-    if(primes[i]) {
-      for(ll j=i*i; j<primes.size(); j+=i)
-        primes[j] = false;
-    }
-  }
-  for(ll i=2; i<primes.size(); i++) {
-    if(primes[i]) primeList.push_back(i);
-  }
-
-}
-
-bool isPrime(ll n)
-{
-    if (n <= 1)
-        return false;
-    if (n <= 3)
-        return true;
-
-    if (n % 2 == 0 || n % 3 == 0)
-        return false;
-
-    for (ll i = 5; i * i <= n; i = i + 6)
-        if (n % i == 0 || n % (i + 2) == 0)
-            return false;
-
-    return true;
-}
-
-
 void solve() {
   ll n, m; cin >> n >> m;
-  VI a;
   VP pa;
   rep(i,0,m) {
     ll ai; cin >> ai;
-    a.pb(ai);
     pa.pb(mp(ai, i+1));
   }
   sort(pa.begin(), pa.end());
 
-  ll ans=0; 
-  ll inc=0;
+  ll ans=0;
+  ll firstdif=0;
   rep(i,1,pa.size()) {
     if(pa[i-1].first==pa[i].first) {
-      ans+=inc;
-    } else {
-      inc = 0;
-      rep(j,0,i) {
-        if(pa[j].second<pa[i].second) inc++;
+      rep(j,0,firstdif) {
+        if(pa[j].second<pa[i].second) ans++;
       }
-      ans+=inc;
+    } else {
+      firstdif = i;
+      rep(j,0,i) {
+        if(pa[j].second<pa[i].second) ans++;
+      }
     }
   }
 
