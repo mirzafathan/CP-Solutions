@@ -109,7 +109,23 @@ void solve() {
     a.pb(ai);
     pa.pb(mp(ai, i+1));
   }
-  sort(a.begin(), a.end());
+  sort(pa.begin(), pa.end());
+
+  ll ans=0; 
+  ll inc=0;
+  rep(i,1,pa.size()) {
+    if(pa[i-1].first==pa[i].first) {
+      ans+=inc;
+    } else {
+      inc = 0;
+      rep(j,0,i) {
+        if(pa[j].second<pa[i].second) inc++;
+      }
+      ans+=inc;
+    }
+  }
+
+  cout << ans << endl;
 
 }
 
