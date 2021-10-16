@@ -29,8 +29,7 @@ double findMedianSortedArrays(vector<int> nums1, vector<int> nums2) {
       else return (double) (max(nums1[0], nums2[partition-2]) + nums2[partition-1]) / 2;
     }
   }
-  return -1;
-/*
+
   while(true) {
     if(k==1 || k==m) {
 
