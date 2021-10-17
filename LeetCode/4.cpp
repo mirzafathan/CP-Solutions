@@ -20,10 +20,16 @@ double findMedianSortedArrays(vector<int> nums1, vector<int> nums2) {
   if(m==1) {
     if(nums1[0] > nums2[partition-1]) {
       if(total_length%2) return (double) (min(nums1[0], nums2[partition]));
-      else return (double) (nums2[partition-1] + min(nums1[0], nums2[partition])) / 2;
+      else {
+        if(m==n) return ((double) (nums1[0]+nums2[0])) / 2;
+        return (double) (nums2[partition-1] + min(nums1[0], nums2[partition])) / 2;
+        }
     } else {
       if(total_length%2) return (double) (nums2[partition-1]);
-      else return (double) (max(nums1[0], nums2[partition-2]) + nums2[partition-1]) / 2;
+      else {
+        if(m==n) return (double) (nums1[0]+nums2[0])/2;
+        return (double) (max(nums1[0], nums2[partition-2]) + nums2[partition-1]) / 2;
+        }
     }
   }
 
@@ -35,7 +41,12 @@ double findMedianSortedArrays(vector<int> nums1, vector<int> nums2) {
     if(nums1[k-1] > nums2[partition-k]) {
       if(k==1) {
         if(total_length%2) return (double) (min(nums1[k-1], nums2[partition]));
-        else return (double) (nums2[partition-1] + min(nums1[k-1], nums2[partition])) / 2;
+        else {
+          if(m==n) {
+            return (double) (nums2[partition-1] + nums1[k-1]) / 2;
+          }
+          return (double) (nums2[partition-1] + min(nums1[k-1], nums2[partition])) / 2;
+        }
       }
       r = k;
       k = (l+k)/2;
@@ -44,7 +55,10 @@ double findMedianSortedArrays(vector<int> nums1, vector<int> nums2) {
       if(k==(m-1)) {
         k++;
         if(total_length%2) return (double) (nums2[partition-k]);
-        else return (double) (max(nums1[k-1], nums2[partition-k-1]) + nums2[partition-k]) / 2;
+        else {
+          if(m<n) return (double) (max(nums1[k-1], nums2[partition-k-1]) + nums2[partition-k]) / 2;
+          else return (double) (nums1[k-1] + nums2[0])/2; 
+        }
       } 
       l = k;
       if((r+k)%2) k++;
@@ -57,7 +71,10 @@ double findMedianSortedArrays(vector<int> nums1, vector<int> nums2) {
   }
 }
 
-
+/*
+[100001]
+[100000]
+*/
 void solve() {
   int a, b;
   cin >> a >> b;
