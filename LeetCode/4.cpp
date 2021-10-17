@@ -5,12 +5,9 @@ using namespace std;
 double findMedianSortedArrays(vector<int> nums1, vector<int> nums2) {
   int m = nums1.size();
   int n = nums2.size();
-  int total_length = m+n;
   if(m>n) return findMedianSortedArrays(nums2, nums1);
+  int total_length = m+n;
   int partition = total_length/2;
-  int k = m/2;
-  int l = 1;
-  int r = m;
 
   if(m==0) {
     if(n%2) {
@@ -22,73 +19,42 @@ double findMedianSortedArrays(vector<int> nums1, vector<int> nums2) {
 
   if(m==1) {
     if(nums1[0] > nums2[partition-1]) {
-      if((m+n)%2) return (double) (min(nums1[0], nums2[partition]));
+      if(total_length%2) return (double) (min(nums1[0], nums2[partition]));
       else return (double) (nums2[partition-1] + min(nums1[0], nums2[partition])) / 2;
     } else {
-      if((m+n)%2) return (double) (nums2[partition-1]);
+      if(total_length%2) return (double) (nums2[partition-1]);
       else return (double) (max(nums1[0], nums2[partition-2]) + nums2[partition-1]) / 2;
     }
   }
 
-  while(true) {
-    if(k==1 || k==m) {
+  int k = m/2;
+  int l = 1;
+  int r = m;
 
-    }
+  while(true) {
     if(nums1[k-1] > nums2[partition-k]) {
+      if(k==1) {
+        if(total_length%2) return (double) (min(nums1[k-1], nums2[partition]));
+        else return (double) (nums2[partition-1] + min(nums1[k-1], nums2[partition])) / 2;
+      }
       r = k;
       k = (l+k)/2;
       continue;
     } else if(nums1[k] < nums2[partition-k-1]) {
+      if(k==(m-1)) {
+        k++;
+        if(total_length%2) return (double) (nums2[partition-k]);
+        else return (double) (max(nums1[k-1], nums2[partition-k-1]) + nums2[partition-k]) / 2;
+      } 
       l = k;
+      if((r+k)%2) k++;
       k = (r+k)/2;
       continue;
     } else {
-
+      if(total_length%2) return (double) (min(nums1[k], nums2[partition-k]));
+      else return (double) (max(nums1[k-1], nums2[partition-k-1]) + min(nums1[k], nums2[partition-k])) / 2;
     }
   }
-
-
-  if(k==1) {
-    if(nums1[k-1] <= nums2[partition-k]) {
-      if(total_length%2) {
-        if(m>1) return min(nums1[0], nums2[partition-k]);
-        else return nums2[partition-k];
-      } else {
-        if(m>1) return (((double) (max(nums1[0], nums2[partition-k-1]) + min(nums1[1], nums2[partition-k]))/2));
-        else return (((double) (max(nums1[0], nums2[partition-k-1]) + nums2[partition-k])/2));
-      }
-    } else {
-      if(n%2){
-        return nums2[partition];
-      } else {
-        return ((double) (nums2[partition-1] + min(nums2[partition], nums1[0])) / 2);
-      }
-    }
-  } else if(k==m) {
-    if(nums1[k-1] <= nums2[partition-k]) {
-      if(total_length%2) {
-        if(m>1) return min(nums1[0], nums2[partition-k]);
-        else return nums2[partition-k];
-      } else {
-        if(m>1) return (((double) (max(nums1[0], nums2[partition-k-1]) + min(nums1[1], nums2[partition-k]))/2));
-        else return (((double) (max(nums1[0], nums2[partition-k-1]) + nums2[partition-k])/2));
-      }
-    }
-  }
-
-  if(nums1[k-1] > nums2[partition-k]) {
-    r = k;
-    k = (l+k)/2;
-  } else if(nums1[k] < nums2[partition-k-1]) {
-    l = k;
-    k = (k+r)/2;
-  } else if(k==1) {
-
-  } else if(k==m) {
-
-  } else {
-
-  } */
 }
 
 
