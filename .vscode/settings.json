@@ -3,6 +3,7 @@
         "iosfwd": "cpp",
         "vector": "cpp",
         "iterator": "cpp",
-        "bitset": "cpp"
+        "bitset": "cpp",
+        "iostream": "cpp"
     }
 }
