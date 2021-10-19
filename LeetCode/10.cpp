@@ -12,34 +12,32 @@ bool isMatch(string s, string p) {
   dp[0][1] = false;
 
   for(long long i = 1; i<len_p; i++) {
-    if(p[i]!='*') {
-      if(p[i-1]!='*') {
-        for(long long j=0; j<len_p; j++) {
-          dp[0][j+1] = false;
-        }
-        break;
-      }
-    } else {
-      dp[0][i+1] = true;
+    dp[0][i+1] = false;
+    if(p[i]=='*') {
+      dp[0][i+1] = dp[0][i-1] || (i==1);
     }
+  }
+  for(long long i = 0; i<len_s; i++) {
+    dp[i+1][0] = false;
   }
 
   for(long long i = 0; i<len_s; i++) {
     for(long long j = 0; j<len_p; j++) {
+      dp[i+1][j+1] = false;
       if(p[j]=='*') {
-        if(p[j-1]==s[i] || (p[j-1]==s[i] && s[i]==s[i-1])) {
+        if(p[j-1]==s[i] || (p[j-1]=='.')) {
           dp[i+1][j+1] = dp[i][j+1];
+          if(j>1 && !dp[i+1][j+1]) {
+            dp[i+1][j+1] = dp[i+1][j-1];
+          }
         } else if(j>1) {
           dp[i+1][j+1] = dp[i+1][j-1];
         }
       } else if((p[j]=='.') || (p[j]==s[i])) {
         dp[i+1][j+1] = dp[i][j];
-      } else {
-        dp[i+1][j+1] = false;
       }
     }
   }
-
   return dp[len_s][len_p];
 }
 
