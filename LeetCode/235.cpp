@@ -12,8 +12,11 @@ struct TreeNode {
 class Solution {
   public:
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-      
-        
+      if(p->val > q->val) return lowestCommonAncestor(root, q, p);
+      //TreeNode* temp = root;
+      if(root->val < p->val) return lowestCommonAncestor(root->right, p, q);
+      else if(root->val > q->val) return lowestCommonAncestor(root->left, p, q);
+      else return root;
     }
 };
 
@@ -42,6 +45,11 @@ int main() {
     root.push_back(n);
   }
 
+  int p, q; cin >> p >> q;
+
+  TreeNode* node_p;
+  TreeNode* node_q;
+
   TreeNode* t = new TreeNode(root[0]);
 
   for(int i=1; i<root.size(); i++) {
@@ -50,6 +58,9 @@ int main() {
     TreeNode* newNode = new TreeNode(root[i]);
     TreeNode* temp = t;
     TreeNode* temp_2 = NULL;
+
+    if(root[i]==p) node_p = newNode;
+    if(root[i]==q) node_q = newNode;
 
     while(temp != NULL) {
       temp_2 = temp;
@@ -67,6 +78,10 @@ int main() {
     }
 
   }
+
+  Solution* ans = new Solution;
+  //cout << t->left->left->val << endl;
+  cout << ans->lowestCommonAncestor(t, node_p, node_q)->val << endl;
 
   return 0;
 }
