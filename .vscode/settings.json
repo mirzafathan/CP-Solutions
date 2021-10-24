@@ -5,6 +5,7 @@
         "iterator": "cpp",
         "bitset": "cpp",
         "iostream": "cpp",
-        "utility": "cpp"
+        "utility": "cpp",
+        "ostream": "cpp"
     }
 }
