@@ -9,11 +9,14 @@ public:
       stackint.push(-1);
       int len = s.length();
       int ans = 0;
-      bool complete = false;
+      int complete = -1;
 
       for(int i=0; i<len; i++) {
         if(s[i] == '(') {
-          if(stackint.size()==1 && i!=0) stackint.push(stackint.top());
+          if(complete>=0) {
+            stackint.push(complete);
+            complete = -1;
+          }
           else stackint.push(i);
         }
         else {
@@ -21,12 +24,9 @@ public:
             int first = stackint.top();
             ans = max(ans, (i-first+1));
             stackint.pop();
-            if(stackint.size() == 1) {
-              stackint.pop();
-              stackint.push(first);
-            }
-          }
-        }
+            complete = first;
+          } else complete = -1;
+        } 
       }
       
       return ans;
