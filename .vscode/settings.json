@@ -6,6 +6,7 @@
         "bitset": "cpp",
         "iostream": "cpp",
         "utility": "cpp",
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "stack": "cpp"
     }
 }
