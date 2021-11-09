@@ -7,12 +7,21 @@ public:
     int maxProfit(vector<int>& prices) {
       int n = prices.size();
       int dp[3][n];
+
       for(int i=0; i<n; i++) dp[0][i] = 0;
+
       for(int k=1; k<=2; k++) {
+        int minm = prices[0];
         for(int i=0; i<n; i++) {
-          
+          if(i==0) dp[k][i] = 0;
+          else {
+            minm = min(minm, prices[i]-dp[k-1][i-1]);
+            dp[k][i] = max(dp[k][i-1], prices[i]-minm);
+          }
         }
       }
+
+      return dp[2][n-1];
     }
 };
 
