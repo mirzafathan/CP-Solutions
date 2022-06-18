@@ -8,6 +8,8 @@
         "utility": "cpp",
         "ostream": "cpp",
         "stack": "cpp",
-        "algorithm": "cpp"
+        "algorithm": "cpp",
+        "queue": "cpp",
+        "ios": "cpp"
     }
 }

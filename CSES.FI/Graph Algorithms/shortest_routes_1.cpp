@@ -8,47 +8,36 @@ void addEdge(vector< pair<ll,ll> > adj[], ll u, ll v, ll w) {
   adj[u].push_back(make_pair(v, w));
 }
 
-ll minDistance(ll dist[], bool sptSet[], ll n) {
-  ll min = INF8;
-  int minIndex;
-
-  for(int i=0; i<n; i++) {
-    if(!sptSet[i] && dist[i]<min) {
-      min = dist[i];
-      minIndex = i;
-    }
-  }
-
-  // debug cout << min << endl;
-
-  return minIndex;
-}
-
 void dijkstra(vector< pair<ll,ll> > adj[], ll src, ll n) {
   ll dist[n];
+  priority_queue<pair<ll, ll>, vector<pair<ll, ll> >, greater<pair<ll, ll> > > pq;
   bool sptSet[n];
 
-  for(int i=0; i<n; i++) {
+  for(ll i=0; i<n; i++) {
     dist[i] = INF8;
     sptSet[i] = false;
   }
   dist[1] = 0;
+  pq.push(make_pair(0,1));
 
 
-  for(int i=1; i<n-1; i++) {
-    ll md = minDistance(dist, sptSet, n);
-    sptSet[md] = true;
+  while(!pq.empty()) {
+    ll md = pq.top().second;
+    pq.pop();
     // debug cout << md << " md" << endl;
+    if(sptSet[md]) continue;
+    sptSet[md] = true;
 
-    for(int j=0; j<adj[md].size(); j++) {
-      int newDistance = adj[md][j].second + dist[md];
-      int curNeighbor = adj[md][j].first;
+    for(ll j=0; j<adj[md].size(); j++) {
+      ll newDistance = adj[md][j].second + dist[md];
+      ll curNeighbor = adj[md][j].first;
       if(!sptSet[curNeighbor] && (newDistance<dist[curNeighbor]))
         dist[curNeighbor] = newDistance;
+        pq.push(make_pair(newDistance, curNeighbor));
     }
   }
 
-  for(int i=1; i<n; i++) {
+  for(ll i=1; i<n; i++) {
     cout << dist[i] << " ";
   } cout << endl;
 }
@@ -60,7 +49,7 @@ int main() {
   cin.tie(0);
   cout.tie(0);
 
-  int n, m;
+  ll n, m;
   ll dist[n+1];
   cin >> n >> m;
   vector< pair<ll,ll> > adj[n+1];
