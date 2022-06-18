@@ -6,7 +6,6 @@ typedef long long ll;
 
 void addEdge(vector< pair<ll,ll> > adj[], ll u, ll v, ll w) {
   adj[u].push_back(make_pair(v, w));
-  adj[v].push_back(make_pair(u, w));
 }
 
 ll minDistance(ll dist[], bool sptSet[], ll n) {
@@ -19,6 +18,8 @@ ll minDistance(ll dist[], bool sptSet[], ll n) {
       minIndex = i;
     }
   }
+
+  // debug cout << min << endl;
 
   return minIndex;
 }
