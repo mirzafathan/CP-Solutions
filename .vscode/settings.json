@@ -10,6 +10,7 @@
         "stack": "cpp",
         "algorithm": "cpp",
         "queue": "cpp",
-        "ios": "cpp"
+        "ios": "cpp",
+        "string": "cpp"
     }
 }
