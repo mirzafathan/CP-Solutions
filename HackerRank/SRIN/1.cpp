@@ -1,166 +1,106 @@
-// Muhammad Mirza Fathan 2021
 #include <bits/stdc++.h>
+
 using namespace std;
 
-/************************/
-/* TEMPLATES */
+string ltrim(const string &);
+string rtrim(const string &);
+vector<string> split(const string &);
 
-#define fr front
-#define bk back
-#define pb push_back
-#define mp make_pair
-#define sc second
-#define fi first
-# define ll long long
-# define ld long double
-# define rep(i,x,y) for(ll i=x;i<y;i++)
-# define rrep(i,x,y) for(ll i=x;i>=y;i--)
-# define debug_stl(x) for(auto i:x){cout<<i<<" ";}cout<<endl;
-# define debug_1d(x,a,b) rep(i,a,b){cout<<x[i]<<" ";}cout<<endl;
-# define debug_2d(x,a1,b1,a2,b2) rep(i,a1,b1){rep(j,a2,b2){cout<<x[i][j]<<" ";}cout<<endl;}
-# define all(x) x.begin(), x.end()
-# define MOD (ll)(1e9+7)
-# define INF8 (ll)(1e17+5)
-# define endl '\n'
+/*
+ * Complete the 'bullsAndCows' function below.
+ *
+ * The function is expected to return a STRING.
+ * The function accepts following parameters:
+ *  1. INTEGER N
+ *  2. STRING X
+ *  3. STRING S
+ */
 
-typedef vector<ll> VI;
-typedef vector<bool> VB;
-typedef vector<string> VS;
-typedef vector<vector<ll> > VVI;
-typedef pair<ll,ll> PI;
-typedef pair<ll,PI > PPI;
-typedef vector<PI> VP;
-typedef vector<PPI> VPP;
-
-vector<ll> primeList;
-vector<bool> primes;
-
-
-ll mod(ll x) {
-  return (x%MOD + MOD)%MOD;
-}
-
-ll power(ll x, ll y) {
-  ll res = 1;
-  x = x%MOD;
-  if (x == 0) return 0;
-  while (y > 0) {
-    if (y&1) res = mod(res * x);
-    y >>= 1; x = mod(x * x);
-  }
-  return res;
-}
-
-ll gcd(ll a, ll b)
-{
-    if (a == 0)
-      return b;
-    if (b == 0)
-      return a;
-
-    if (a == b)
-      return a;
-    if (a > b)
-        return gcd(a%b, b);
-    return gcd(a, b%a);
-}
-
-void sieve() {
-  primes[0] = false;
-  primes[1] = false;
-  for(ll i=2; i<primes.size(); i++) primes[i] = true;
-
-  for(ll i=2; i*i<primes.size(); i++) {
-    if(primes[i]) {
-      for(ll j=i*i; j<primes.size(); j+=i)
-        primes[j] = false;
+string bullsAndCows(int N, string X, string S) {
+    // Write your code here
+    vector<bool> exist(10, false);
+    int bull = 0;
+    int cow = 0;
+    for(int i=0; i<N; i++) {
+        int digit = (int) X[i];
+        exist[digit] = 1;
     }
-  }
-  for(ll i=2; i<primes.size(); i++) {
-    if(primes[i]) primeList.push_back(i);
-  }
-
+    
+    for(int i=0; i<N; i++) {
+        int digit = (int) S[i];
+        if(S[i] == X[i]) bull++;
+        else if(exist[digit]) cow++;
+    }
+    
+    return to_string(bull) + 'A' + to_string(cow) + 'B';
 }
 
-bool isPrime(ll n)
+int main()
 {
-    if (n <= 1)
-        return false;
-    if (n <= 3)
-        return true;
+    ofstream fout(getenv("OUTPUT_PATH"));
 
-    if (n % 2 == 0 || n % 3 == 0)
-        return false;
+    string T_temp;
+    getline(cin, T_temp);
 
-    for (ll i = 5; i * i <= n; i = i + 6)
-        if (n % i == 0 || n % (i + 2) == 0)
-            return false;
+    int T = stoi(ltrim(rtrim(T_temp)));
 
-    return true;
+    for (int T_itr = 0; T_itr < T; T_itr++) {
+        string first_multiple_input_temp;
+        getline(cin, first_multiple_input_temp);
+
+        vector<string> first_multiple_input = split(rtrim(first_multiple_input_temp));
+
+        int N = stoi(first_multiple_input[0]);
+
+        string X = first_multiple_input[1];
+
+        string S = first_multiple_input[2];
+
+        string result = bullsAndCows(N, X, S);
+
+        fout << result << "\n";
+    }
+
+    fout.close();
+
+    return 0;
 }
 
+string ltrim(const string &str) {
+    string s(str);
 
-/* From hu_tao:
+    s.erase(
+        s.begin(),
+        find_if(s.begin(), s.end(), not1(ptr_fun<int, int>(isspace)))
+    );
 
-        Random stuff to try when stuck:
-           -if it's 2C then it's dp
-           -for combo/probability problems, expand the given form we're interested in
-           -make everything the same then build an answer (constructive, make everything 0 then do something)
-           -something appears in parts of 2 --> model as graph
-           -assume a greedy then try to show why it works
-           -find way to simplify into one variable if multiple exist
-           -treat it like fmc (note any passing thoughts/algo that could be used so you can revisit them)
-           -find lower and upper bounds on answer
-           -figure out what ur trying to find and isolate it
-           -see what observations you have and come up with more continuations
-           -work backwards (in constructive, go from the goal to the start)
-           -turn into prefix/suffix sum argument (often works if problem revolves around adjacent array elements)
-           -instead of solving for answer, try solving for complement (ex, find n-(min) instead of max)
-           -draw something
-           -simulate a process
-           -dont implement something unless if ur fairly confident its correct
-           -after 3 bad submissions move on to next problem if applicable
-           -do something instead of nothing and stay organized
-           -write stuff down
-        Random stuff to check when wa:
-           -if code is way too long/cancer then reassess
-           -switched N/M
-           -int overflow
-           -switched variables
-           -wrong MOD
-           -hardcoded edge case incorrectly
-        Random stuff to check when tle:
-           -continue instead of break
-           -condition in for/while loop bad
-        Random stuff to check when rte:
-           -switched N/M
-           -long to int/int overflow
-           -division by 0
-           -edge case for empty list/data structure/N=1
-     */
-
-/************************/
-
-void solve() {
-
+    return s;
 }
 
-int main() {
-  ios_base::sync_with_stdio(0);
-  cin.tie(0);
-  cout.tie(0);
+string rtrim(const string &str) {
+    string s(str);
 
-  /*
-  // for multiple testcase problems
+    s.erase(
+        find_if(s.rbegin(), s.rend(), not1(ptr_fun<int, int>(isspace))).base(),
+        s.end()
+    );
 
-  ll t; cin >> t;
-  while(t--) {
-    solve();
-  }
+    return s;
+}
 
-  */
+vector<string> split(const string &str) {
+    vector<string> tokens;
 
-  solve();
+    string::size_type start = 0;
+    string::size_type end = 0;
 
-  return 0;
+    while ((end = str.find(" ", start)) != string::npos) {
+        tokens.push_back(str.substr(start, end - start));
+
+        start = end + 1;
+    }
+
+    tokens.push_back(str.substr(start));
+
+    return tokens;
 }

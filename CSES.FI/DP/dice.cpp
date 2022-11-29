@@ -3,16 +3,7 @@
 using namespace std;
 typedef long long ll;
 # define INF8 (ll)(1e17+5)
-
-ll combinations(ll n) {
-  if(n<0) return 0;
-  if(n==0) return 1;
-  ll result = 0;
-  for(int i=1; i<=6; i++) {
-    result += combinations(n-i);
-  }
-  return result;
-}
+const int mod = 1e9+7
 
 int main() {
   ios_base::sync_with_stdio(0);
@@ -20,7 +11,10 @@ int main() {
   cout.tie(0);
 
   ll n; cin >> n;
-  cout << combinations(n) << endl;
+  vector<ll> combinations(n+1,0);
+  combinations[0] = 1;
+
+  for(int i=1; i<=n; i++) 
 
   return 0;
 }
