@@ -39,9 +39,18 @@ typedef pair<ll,PI > PPI;
 typedef vector<PI> VP;
 typedef vector<PPI> VPP;
 
+typedef struct Triplet {
+  ll numRow;
+  ll numBlock;
+  list<pair<ll,ll>> blockRow;
+} Triplet;
+
 vector<ll> primeList;
 vector<bool> primes;
-int Row, Col;
+ll Row, Col;
+ll currentTimestamp = 0;
+ll currentBlockNum = 0;
+list<Triplet> board;
 void init(int R, int C);
 int dropBlocks(int mTimestamp, int mCol, int mLen);
 int removeBlocks(int mTimestamp);
@@ -96,112 +105,18 @@ static bool run()
     return ok;
 }
 
-
-ll mod(ll x) {
-  return (x%MOD + MOD)%MOD;
-}
-
-ll power(ll x, ll y) {
-  ll res = 1;
-  x = x%MOD;
-  if (x == 0) return 0;
-  while (y > 0) {
-    if (y&1) res = mod(res * x);
-    y >>= 1; x = mod(x * x);
-  }
-  return res;
-}
-
-ll gcd(ll a, ll b)
-{
-    if (a == 0)
-      return b;
-    if (b == 0)
-      return a;
-
-    if (a == b)
-      return a;
-    if (a > b)
-        return gcd(a%b, b);
-    return gcd(a, b%a);
-}
-
-void sieve() {
-  primes[0] = false;
-  primes[1] = false;
-  for(ll i=2; i<primes.size(); i++) primes[i] = true;
-
-  for(ll i=2; i*i<primes.size(); i++) {
-    if(primes[i]) {
-      for(ll j=i*i; j<primes.size(); j+=i)
-        primes[j] = false;
+void printListTriplet(list<Triplet> l) {
+  list<Triplet>::iterator it;
+  for(it = l.begin(); it != l.end(); ++it) {
+    cout << "numRow: " << it->numRow << ", " << "numBlock: " << it->numBlock << ", blockRow: ";
+    cout  << "[";
+    list<pair<ll,ll>>::iterator itr;
+    for(itr = it->blockRow.begin(); itr != it->blockRow.end(); ++itr) {
+      cout << "(" << itr->first << ", " << itr->second << ")";
     }
+    cout << "]" << endl;
   }
-  for(ll i=2; i<primes.size(); i++) {
-    if(primes[i]) primeList.push_back(i);
-  }
-
 }
-
-bool isPrime(ll n)
-{
-    if (n <= 1)
-        return false;
-    if (n <= 3)
-        return true;
-
-    if (n % 2 == 0 || n % 3 == 0)
-        return false;
-
-    for (ll i = 5; i * i <= n; i = i + 6)
-        if (n % i == 0 || n % (i + 2) == 0)
-            return false;
-
-    return true;
-}
-
-
-/* From hu_tao:
-
-        Random stuff to try when stuck:
-           -if it's 2C then it's dp
-           -for combo/probability problems, expand the given form we're interested in
-           -make everything the same then build an answer (constructive, make everything 0 then do something)
-           -something appears in parts of 2 --> model as graph
-           -assume a greedy then try to show why it works
-           -find way to simplify into one variable if multiple exist
-           -treat it like fmc (note any passing thoughts/algo that could be used so you can revisit them)
-           -find lower and upper bounds on answer
-           -figure out what ur trying to find and isolate it
-           -see what observations you have and come up with more continuations
-           -work backwards (in constructive, go from the goal to the start)
-           -turn into prefix/suffix sum argument (often works if problem revolves around adjacent array elements)
-           -instead of solving for answer, try solving for complement (ex, find n-(min) instead of max)
-           -draw something
-           -simulate a process
-           -dont implement something unless if ur fairly confident its correct
-           -after 3 bad submissions move on to next problem if applicable
-           -do something instead of nothing and stay organized
-           -write stuff down
-        Random stuff to check when wa:
-           -if code is way too long/cancer then reassess
-           -switched N/M
-           -int overflow
-           -switched variables
-           -wrong MOD
-           -hardcoded edge case incorrectly
-        Random stuff to check when tle:
-           -continue instead of break
-           -condition in for/while loop bad
-        Random stuff to check when rte:
-           -switched N/M
-           -long to int/int overflow
-           -division by 0
-           -edge case for empty list/data structure/N=1
-     */
-
-/************************/
-
 void init(int R, int C)
 {
  Row = R;
@@ -210,12 +125,138 @@ void init(int R, int C)
 
 int dropBlocks(int mTimestamp, int mCol, int mLen)
 {
-    return 0;
+    ll dif = mTimestamp - currentTimestamp;
+    list<Triplet>::iterator it = board.begin();
+    while(it != board.end()) {
+      if(it->numRow + dif >= Row) {
+        currentBlockNum = currentBlockNum - it->numBlock;
+        it = board.erase(it);
+      } else {
+        it->numRow = it->numRow + dif;
+        ++it;
+      }
+    }
+
+    list<pair<ll,ll>> blockRow;
+    blockRow.push_back(mp(mCol, mLen));
+    Triplet dropped;
+    dropped.numRow = 0;
+    dropped.numBlock = mLen;
+    dropped.blockRow = blockRow;
+    board.push_back(dropped);
+    currentBlockNum += mLen;
+    cout << "timestamp (drop): " << mTimestamp << endl;
+    cout << "Blocks: " << currentBlockNum << endl;
+    printListTriplet(board);
+
+    currentTimestamp = mTimestamp;
+    return currentBlockNum;
 }
 
 int removeBlocks(int mTimestamp)
 {
-    return 0;
+  ll dif = mTimestamp - currentTimestamp;
+  vector<bool> removedCol;
+  for(int i=0; i < Col; i++) removedCol.push_back(false);
+
+  list<Triplet>::iterator itBoard = board.begin();
+  while(itBoard != board.end()) {
+    if(itBoard->numRow + dif >= Row) {
+      currentBlockNum = currentBlockNum - itBoard->numBlock;
+      itBoard = board.erase(itBoard);
+    } else {
+      itBoard->numRow = itBoard->numRow + dif;
+      int blockRowSize = itBoard->blockRow.size();
+      list<pair<ll,ll>>::iterator itRow = itBoard->blockRow.begin();
+      int initNumBlock = itBoard->numBlock;
+      for(int i=0; i < blockRowSize; i++) {
+        int j = itRow->first;
+        while(j < (itRow->first + itRow->second)) {
+          if(!removedCol[j]) {
+            itBoard->numBlock--;
+            removedCol[j] = true;
+            j++;
+          } else {
+            int k = j+1;
+            cout << "j " << j << endl; 
+            while(k < (itRow->first + itRow->second)) {
+              if(!removedCol[k]) {
+                break;
+              }
+              //cout << "j " << j << " k " << k << endl; 
+              k++;
+            }
+            itBoard->blockRow.push_back(mp(j, k-j));
+            j=k;
+          }
+        }
+        itBoard->blockRow.pop_front();
+        ++itRow;
+      }
+      currentBlockNum = currentBlockNum - (initNumBlock - itBoard->numBlock);
+      if(itBoard->numBlock <= 0) {
+        itBoard = board.erase(itBoard);
+      } else {
+        ++itBoard;
+      }
+    }
+  }
+  /*
+    ll dif = mTimestamp - currentTimestamp;
+    vector<bool> removedCol(Col);
+    for(int i = 0; i < Col; i++) removedCol[i] = false;
+    list<Triplet>::iterator it = board.begin();
+    while(it != board.end()) {
+      if(it->numRow + dif >= Row) {
+        currentBlockNum = currentBlockNum - it->numBlock;
+        it = board.erase(it);
+      } else {
+        it->numRow = it->numRow + dif;
+        VP newBlocks;
+        for(int i = 0; i < it->blockRow.size(); i++) {
+          vector<bool> removedColThisRow(Col); 
+          for(int j = 0; j < Col; j++) removedColThisRow[j] = false;
+          for(int j = it->blockRow[i].first; j <= it->blockRow[i].second; j++) {
+            if(!removedCol[j]) {
+              removedCol[j] = true;
+              removedColThisRow[j] = true;
+              it->numBlock--;
+              currentBlockNum--;
+            }
+          }
+          for(int j = it->blockRow[i].first; j <= it->blockRow[i].second; j++) {
+            if(!removedColThisRow[j]) {
+              int a, b;
+              bool boundaryExist = false;
+              a = j;
+              for(int k = j; k < it->blockRow[i].second; k++) {
+                if(removedColThisRow[k+1]) {
+                  b = k;
+                  boundaryExist = true;
+                  break;
+                }
+              }
+              if(!boundaryExist) b = it->blockRow[i].second;
+              newBlocks.push_back(mp(a, b));
+              j = b;
+            }
+          }
+        }
+        if(it->numBlock == 0) it = board.erase(it);
+        else {
+          it->blockRow = newBlocks;
+          ++it;
+        }
+      }
+    }
+    */
+
+    cout << "Timestamp (removal): " << mTimestamp << endl;
+    cout << "Blocks: " << currentBlockNum << endl;
+    printListTriplet(board);
+
+    currentTimestamp = mTimestamp;
+    return currentBlockNum;
 }
 
 int main()
