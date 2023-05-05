@@ -87,7 +87,8 @@ static bool run()
             if (ans != ret)
             {
                 ok = false;
-            }
+                cout << ret << " drop, block: " << ans << endl;
+            } 
         }
         else if (query == CMD_REMOVE)
         {
@@ -98,10 +99,11 @@ static bool run()
             if (ans != ret)
             {
                 ok = false;
+                cout << ret << " remove, block: " << ans << endl;
             }
         }
-
     }
+    //cout << "blocks: " << ans << endl;
     return ok;
 }
 
@@ -119,8 +121,10 @@ void printListTriplet(list<Triplet> l) {
 }
 void init(int R, int C)
 {
- Row = R;
- Col = C; 
+  board.clear();
+  currentBlockNum = 0;
+  Row = R;
+  Col = C; 
 }
 
 int dropBlocks(int mTimestamp, int mCol, int mLen)
@@ -145,9 +149,9 @@ int dropBlocks(int mTimestamp, int mCol, int mLen)
     dropped.blockRow = blockRow;
     board.push_back(dropped);
     currentBlockNum += mLen;
-    cout << "timestamp (drop): " << mTimestamp << endl;
-    cout << "Blocks: " << currentBlockNum << endl;
-    printListTriplet(board);
+    //cout << "timestamp (drop): " << mTimestamp << endl;
+    //cout << "Blocks: " << currentBlockNum << endl;
+    //printListTriplet(board);
 
     currentTimestamp = mTimestamp;
     return currentBlockNum;
@@ -161,24 +165,37 @@ int removeBlocks(int mTimestamp)
 
   list<Triplet>::iterator itBoard = board.begin();
   while(itBoard != board.end()) {
-    if(itBoard->numRow + dif >= Row) {
+    if(itBoard->numRow + dif >= Row)
+    {
       currentBlockNum = currentBlockNum - itBoard->numBlock;
       itBoard = board.erase(itBoard);
-    } else {
+    }
+    
+    else
+    {
       itBoard->numRow = itBoard->numRow + dif;
       int blockRowSize = itBoard->blockRow.size();
+
       list<pair<ll,ll>>::iterator itRow = itBoard->blockRow.begin();
       int initNumBlock = itBoard->numBlock;
+
+
       for(int i=0; i < blockRowSize; i++) {
         int j = itRow->first;
+
         while(j < (itRow->first + itRow->second)) {
-          if(!removedCol[j]) {
+          if(!removedCol[j])
+          {
             itBoard->numBlock--;
             removedCol[j] = true;
             j++;
-          } else {
+          }
+          
+          else
+          {
             int k = j+1;
-            cout << "j " << j << endl; 
+            //cout << "j " << j << endl;
+
             while(k < (itRow->first + itRow->second)) {
               if(!removedCol[k]) {
                 break;
@@ -186,14 +203,19 @@ int removeBlocks(int mTimestamp)
               //cout << "j " << j << " k " << k << endl; 
               k++;
             }
+
             itBoard->blockRow.push_back(mp(j, k-j));
             j=k;
           }
         }
-        itBoard->blockRow.pop_front();
+
         ++itRow;
+        itBoard->blockRow.pop_front();
       }
+
+
       currentBlockNum = currentBlockNum - (initNumBlock - itBoard->numBlock);
+
       if(itBoard->numBlock <= 0) {
         itBoard = board.erase(itBoard);
       } else {
@@ -251,9 +273,9 @@ int removeBlocks(int mTimestamp)
     }
     */
 
-    cout << "Timestamp (removal): " << mTimestamp << endl;
-    cout << "Blocks: " << currentBlockNum << endl;
-    printListTriplet(board);
+    //cout << "Timestamp (removal): " << mTimestamp << endl;
+    //cout << "Blocks: " << currentBlockNum << endl;
+    //printListTriplet(board);
 
     currentTimestamp = mTimestamp;
     return currentBlockNum;
@@ -262,7 +284,7 @@ int removeBlocks(int mTimestamp)
 int main()
 {
     setbuf(stdout, NULL);
-    freopen("sample_input.txt", "r", stdin);
+    freopen("sample_input copy.txt", "r", stdin);
     int T, MARK;
     scanf("%d %d", &T, &MARK);
 
