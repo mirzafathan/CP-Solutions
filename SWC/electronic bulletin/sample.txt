@@ -1,0 +1,22 @@
+1 100
+20
+100
+200 aaa 1 10 10
+200 bbb 2 5 5
+300 ccc 3 1 5 15
+300 ddd 4 1 3 18
+300 eee 5 3 4 22
+600 aaa bbb ccc eee ddd
+200 ccc 6 20 25
+200 bbb 7 13 18
+200 aaa 8 20 30
+500 1 6 8 7 2
+200 fff 9 1 1
+300 ddd 10 6 10 30
+400 3 13
+600 aaa ccc bbb ddd fff
+400 6 0
+300 ccc 20 2 35 40
+300 fff 30 9 14 15
+500 2 8 9 1 7
+600 ccc aaa bbb fff ddd
