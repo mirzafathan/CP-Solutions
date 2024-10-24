@@ -10,25 +10,29 @@ int main() {
   cout.tie(0);
   ll n; cin >> n;
   ll x; cin >> x;
-  ll c[1000000+5];
+  ll c[101];
   for(int i=0; i<n; i++) {
     cin >> c[i];
   }
 
-  ll dp[101];
+  ll dp[1000000+5];
   dp[0] = 0;
 
-  for(int i=0; i<=100; i++) {
+  for(int i=1; i<=x; i++) {
     dp[i] = INF8;
   }
 
   for(int i=1; i<=x; i++) {
-    for(int j=0; j<n; i++) {
+    for(int j=0; j<n; j++) {
       if(i<c[j]) continue;
-      dp[i] = min(dp[i], dp[i-c[j]]);
+      dp[i] = min(dp[i], dp[i-c[j]] + 1);
     }
   }
 
+  if(dp[x]==INF8) {
+    cout << -1 << endl;
+    return 0;
+  }
   cout << dp[x] << endl;
 
   return 0;
