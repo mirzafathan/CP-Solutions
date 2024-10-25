@@ -1,4 +1,5 @@
-// Muhammad Mirza Fathan | 2021
+// Muhammad Mirza Fathan | 2024
+// Dice Combinations
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
